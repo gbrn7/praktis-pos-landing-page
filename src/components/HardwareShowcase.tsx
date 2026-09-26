@@ -19,17 +19,17 @@ export const HardwareShowcase: React.FC = () => {
   };
 
   return (
-    <section id="hardware" className="py-16 sm:py-24 bg-[#FDFDFD]">
+    <section id="hardware" className="py-16 sm:py-24 bg-[#FDFDFD] dark:bg-[#0B0B0C] transition-colors duration-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-14">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FFF0EB] text-[#E0511F] text-xs font-bold uppercase tracking-wider mb-3">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FFF0EB] dark:bg-[#2B150B] text-[#E0511F] text-xs font-bold uppercase tracking-wider mb-3">
             What's In The Box
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-[#000000] tracking-tight">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-[#000000] dark:text-[#FFFFFF] tracking-tight">
             1 Paket Lengkap Mesin Kasir Praktis POS
           </h2>
-          <p className="mt-3 text-base text-[#525252]">
+          <p className="mt-3 text-base text-[#525252] dark:text-[#A1A1AA]">
             Semua perangkat yang Anda butuhkan untuk operasional toko sudah tersedia dalam satu paket. Buka dus, colok kabel, dan langsung siap transaksi.
           </p>
         </div>
@@ -41,22 +41,22 @@ export const HardwareShowcase: React.FC = () => {
             return (
               <div
                 key={item.id}
-                className="bg-[#FFFFFF] p-6 rounded-2xl border border-[#E7E7EE] hover:border-[#E0511F]/40 transition-all duration-200 shadow-sm hover:shadow-md flex flex-col justify-between"
+                className="bg-[#FFFFFF] dark:bg-[#141416] p-6 rounded-2xl border border-[#E7E7EE] dark:border-[#232326] hover:border-[#E0511F]/40 dark:hover:border-[#E0511F]/50 transition-all duration-200 shadow-sm hover:shadow-md flex flex-col justify-between"
               >
                 <div>
-                  <div className="w-12 h-12 rounded-xl bg-[#FFF0EB] flex items-center justify-center text-[#E0511F] mb-4">
+                  <div className="w-12 h-12 rounded-xl bg-[#FFF0EB] dark:bg-[#2B150B] flex items-center justify-center text-[#E0511F] mb-4">
                     <IconComponent className="w-6 h-6 stroke-[2]" />
                   </div>
                   <span className="text-xs font-semibold text-[#E0511F] uppercase tracking-wider">{item.category}</span>
-                  <h3 className="text-lg font-bold text-[#000000] mt-1">{item.name}</h3>
-                  <p className="text-xs font-medium text-[#525252] mt-1 bg-[#F8F9FA] p-2 rounded-lg border border-[#E7E7EE]">
+                  <h3 className="text-lg font-bold text-[#000000] dark:text-[#FFFFFF] mt-1">{item.name}</h3>
+                  <p className="text-xs font-medium text-[#525252] dark:text-[#A1A1AA] mt-1 bg-[#F8F9FA] dark:bg-[#18181B] p-2 rounded-lg border border-[#E7E7EE] dark:border-[#232326]">
                     Spesifikasi: {item.spec}
                   </p>
-                  <p className="text-sm text-[#525252] mt-3 leading-relaxed">
+                  <p className="text-sm text-[#525252] dark:text-[#A1A1AA] mt-3 leading-relaxed">
                     {item.description}
                   </p>
                 </div>
-                <div className="mt-4 pt-3 border-t border-[#E7E7EE] flex items-center gap-1.5 text-xs font-semibold text-[#000000]">
+                <div className="mt-4 pt-3 border-t border-[#E7E7EE] dark:border-[#232326] flex items-center gap-1.5 text-xs font-semibold text-[#000000] dark:text-[#FFFFFF]">
                   <CheckCircle2 className="w-4 h-4 text-[#E0511F]" />
                   <span>Termasuk Setting & Driver</span>
                 </div>
@@ -65,14 +65,14 @@ export const HardwareShowcase: React.FC = () => {
           })}
 
           {/* Card Bonus & Guarantee */}
-          <div className="bg-[#FFFFFF] p-6 rounded-2xl border-2 border-dashed border-[#E0511F]/30 bg-[#FFF0EB]/20 flex flex-col justify-between">
+          <div className="bg-[#FFFFFF] dark:bg-[#141416] p-6 rounded-2xl border-2 border-dashed border-[#E0511F]/30 dark:border-[#E0511F]/40 bg-[#FFF0EB]/20 dark:bg-[#2B150B]/20 flex flex-col justify-between">
             <div>
-              <div className="w-12 h-12 rounded-xl bg-[#FFF0EB] flex items-center justify-center text-[#E0511F] mb-4">
+              <div className="w-12 h-12 rounded-xl bg-[#FFF0EB] dark:bg-[#2B150B] flex items-center justify-center text-[#E0511F] mb-4">
                 <Gift className="w-6 h-6" />
               </div>
               <span className="text-xs font-bold text-[#E0511F] uppercase tracking-wider">Bonus Spesial Pembelian</span>
-              <h3 className="text-lg font-bold text-[#000000] mt-1">Gratis Starter Kit Toko</h3>
-              <ul className="mt-3 space-y-2 text-xs text-[#525252]">
+              <h3 className="text-lg font-bold text-[#000000] dark:text-[#FFFFFF] mt-1">Gratis Starter Kit Toko</h3>
+              <ul className="mt-3 space-y-2 text-xs text-[#525252] dark:text-[#A1A1AA]">
                 {PACKAGE_DATA.bonuses.map((b, idx) => (
                   <li key={idx} className="flex items-start gap-2">
                     <CheckCircle2 className="w-3.5 h-3.5 text-[#E0511F] shrink-0 mt-0.5" />
@@ -82,7 +82,7 @@ export const HardwareShowcase: React.FC = () => {
               </ul>
             </div>
 
-            <div className="mt-6 pt-4 border-t border-[#E0511F]/20">
+            <div className="mt-6 pt-4 border-t border-[#E0511F]/20 dark:border-[#E0511F]/30">
               <a
                 href={getWaUrl()}
                 target="_blank"

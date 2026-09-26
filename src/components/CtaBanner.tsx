@@ -8,20 +8,20 @@ export const CtaBanner: React.FC = () => {
   };
 
   return (
-    <section className="py-16 sm:py-20 bg-[#FDFDFD] border-t border-[#E7E7EE]">
+    <section className="py-16 sm:py-20 bg-[#FDFDFD] dark:bg-[#0B0B0C] border-t border-[#E7E7EE] dark:border-[#232326] transition-colors duration-200">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="relative p-8 sm:p-14 rounded-3xl bg-[#FFFFFF] border-2 border-[#E7E7EE] shadow-lg text-center overflow-hidden">
+        <div className="relative p-8 sm:p-14 rounded-3xl bg-[#FFFFFF] dark:bg-[#141416] border-2 border-[#E7E7EE] dark:border-[#232326] shadow-lg text-center overflow-hidden">
           {/* Subtle background accent dot */}
-          <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 rounded-full bg-[#FFF0EB] -z-0 opacity-70" />
+          <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 rounded-full bg-[#FFF0EB] dark:bg-[#2B150B]/60 -z-0 opacity-70" />
 
           <div className="relative z-10 max-w-2xl mx-auto">
-            <span className="inline-block px-3 py-1 rounded-full bg-[#FFF0EB] text-[#E0511F] text-xs font-bold uppercase tracking-wider mb-4">
+            <span className="inline-block px-3 py-1 rounded-full bg-[#FFF0EB] dark:bg-[#2B150B] text-[#E0511F] text-xs font-bold uppercase tracking-wider mb-4">
               Siap Memajukan Toko Anda?
             </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#000000] tracking-tight">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#000000] dark:text-[#FFFFFF] tracking-tight">
               Miliki Paket Mesin Kasir Praktis POS Hari Ini
             </h2>
-            <p className="mt-4 text-sm sm:text-base text-[#525252] leading-relaxed">
+            <p className="mt-4 text-sm sm:text-base text-[#525252] dark:text-[#A1A1AA] leading-relaxed">
               Konsultasikan jenis usaha dan kebutuhan toko Anda dengan tim kami. Perangkat kami rakit dan uji sebelum dikirim langsung ke alamat Anda.
             </p>
 
@@ -38,7 +38,7 @@ export const CtaBanner: React.FC = () => {
               </a>
             </div>
 
-            <div className="mt-6 flex flex-wrap justify-center items-center gap-x-6 gap-y-2 text-xs text-[#525252]">
+            <div className="mt-6 flex flex-wrap justify-center items-center gap-x-6 gap-y-2 text-xs text-[#525252] dark:text-[#A1A1AA]">
               <span className="flex items-center gap-1.5">
                 <Check className="w-3.5 h-3.5 text-[#E0511F]" /> Beli Putus Tanpa Biaya Bulanan
               </span>
