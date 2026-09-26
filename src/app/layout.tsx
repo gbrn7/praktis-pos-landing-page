@@ -34,13 +34,28 @@ export const metadata: Metadata = {
   },
 };
 
+const themeInitScript = `
+  try {
+    const theme = localStorage.getItem('theme');
+    const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (theme === 'dark' || (!theme && supportDarkMode)) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  } catch (e) {}
+`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="id" className="scroll-smooth">
+    <html lang="id" className="scroll-smooth" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
       <body className={`${plusJakartaSans.variable} font-sans antialiased selection:bg-[#FFF0EB] selection:text-[#E0511F]`}>
         {children}
       </body>
