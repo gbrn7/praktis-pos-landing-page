@@ -11,7 +11,7 @@ import { FloatingWhatsApp } from '@/components/FloatingWhatsApp';
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-[#FDFDFD] text-[#000000]">
+    <div className="min-h-screen bg-[#FDFDFD] dark:bg-[#0B0B0C] text-[#000000] dark:text-[#FFFFFF] transition-colors duration-200">
       <Navbar />
       <main>
         <Hero />
