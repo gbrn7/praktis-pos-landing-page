@@ -15,7 +15,7 @@ export const Hero: React.FC = () => {
           {/* Pill Badge */}
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FFF0EB] border border-[#E0511F]/20 text-[#E0511F] text-xs sm:text-sm font-semibold mb-6 shadow-sm">
             <Sparkles className="w-4 h-4" />
-            <span>Paket Lengkap Hardware + Software Siap Pakai</span>
+            <span>Mesin Kasir Praktis POS • Paket Siap Pakai</span>
           </div>
 
           {/* Headline H1 */}
@@ -26,7 +26,7 @@ export const Hero: React.FC = () => {
 
           {/* Subtitle */}
           <p className="mt-5 text-base sm:text-lg text-[#525252] leading-relaxed max-w-2xl mx-auto">
-            Kelola transaksi kasir secepat kilat, pantau stok akurat, dan otomatis pisahkan uang modal kulakan vs laba bersih toko Anda. <strong>100% tanpa biaya langganan bulanan seumur hidup.</strong>
+            Bersama <strong>Praktis POS</strong>, kelola transaksi kasir secepat kilat, pantau stok akurat, dan otomatis pisahkan uang modal kulakan vs laba bersih toko Anda. <strong>100% tanpa biaya langganan bulanan seumur hidup.</strong>
           </p>
 
           {/* 2 CTA Buttons */}

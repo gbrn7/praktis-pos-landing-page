@@ -19,7 +19,7 @@ export const CtaBanner: React.FC = () => {
               Siap Memajukan Toko Anda?
             </span>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-[#000000] tracking-tight">
-              Miliki Paket Mesin Kasir Lengkap Hari Ini
+              Miliki Paket Mesin Kasir Praktis POS Hari Ini
             </h2>
             <p className="mt-4 text-sm sm:text-base text-[#525252] leading-relaxed">
               Konsultasikan jenis usaha dan kebutuhan toko Anda dengan tim kami. Perangkat kami rakit dan uji sebelum dikirim langsung ke alamat Anda.

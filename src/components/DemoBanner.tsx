@@ -13,7 +13,7 @@ export const DemoBanner: React.FC = () => {
               <span>Tanpa Perlu Install Apapun</span>
             </div>
             <h3 className="text-2xl sm:text-3xl font-extrabold text-[#000000] tracking-tight">
-              Ingin Mencoba Langsung Fitur Kasirnya?
+              Ingin Mencoba Langsung Praktis POS?
             </h3>
             <p className="mt-2 text-sm text-[#525252] leading-relaxed">
               Buka aplikasi demo langsung di browser Anda sekarang. Rasakan sendiri cepatnya transaksi, kemudahan scan barcode, dan kejelasan laporan kas modal vs profit sebelum memesan paket hardware.

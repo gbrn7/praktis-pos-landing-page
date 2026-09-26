@@ -27,7 +27,7 @@ export const HardwareShowcase: React.FC = () => {
             What's In The Box
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-[#000000] tracking-tight">
-            1 Paket Lengkap Mesin Kasir Siap Pakai
+            1 Paket Lengkap Mesin Kasir Praktis POS
           </h2>
           <p className="mt-3 text-base text-[#525252]">
             Semua perangkat yang Anda butuhkan untuk operasional toko sudah tersedia dalam satu paket. Buka dus, colok kabel, dan langsung siap transaksi.
