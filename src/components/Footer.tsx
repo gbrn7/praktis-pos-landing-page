@@ -1,6 +1,7 @@
 import React from 'react';
-import { Store, MessageCircle } from 'lucide-react';
+import { MessageCircle } from 'lucide-react';
 import { PACKAGE_DATA, WHATSAPP_NUMBER } from '../data/package-data';
+import logoWithText from '../assets/img/Logo-with-text-white-bg.png';
 
 export const Footer: React.FC = () => {
   const getWaUrl = () => {
@@ -14,10 +15,11 @@ export const Footer: React.FC = () => {
           {/* Brand */}
           <div className="md:col-span-2">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-[#FFF0EB] flex items-center justify-center text-[#E0511F]">
-                <Store className="w-4 h-4 stroke-[2.2]" />
-              </div>
-              <span className="text-lg font-bold text-[#000000]">Super<span className="text-[#E0511F]">POS</span></span>
+              <img
+                src={logoWithText}
+                alt="Praktis POS"
+                className="h-9 sm:h-10 w-auto object-contain"
+              />
             </div>
             <p className="mt-3 text-xs text-[#525252] max-w-sm leading-relaxed">
               Solusi paket mesin kasir All-in-One siap pakai untuk ritel dan UMKM di seluruh Indonesia. Transaksi cepat, pencatatan rapi, dan otomatis memisahkan kas modal & profit toko.
@@ -54,7 +56,7 @@ export const Footer: React.FC = () => {
         </div>
 
         <div className="pt-8 border-t border-[#E7E7EE] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
-          <p>© {new Date().getFullYear()} Super POS. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Praktis POS. All rights reserved.</p>
           <p className="text-[#525252]">Paket Mesin Kasir Lengkap Hardware + Software Siap Pakai.</p>
         </div>
       </div>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { ShoppingCart, Wallet, ArrowUpRight, TrendingUp, CheckCircle2 } from 'lucide-react';
+import logoIcon from '../assets/img/Logo.png';
 
 export const MockupPreview: React.FC = () => {
   return (
@@ -10,11 +11,11 @@ export const MockupPreview: React.FC = () => {
           <div className="w-3 h-3 rounded-full bg-[#FF5F56]" />
           <div className="w-3 h-3 rounded-full bg-[#FFBD2E]" />
           <div className="w-3 h-3 rounded-full bg-[#27C93F]" />
-          <span className="ml-2 text-xs font-medium text-[#525252] hidden sm:inline">superpos.app/dashboard</span>
+          <span className="ml-2 text-xs font-medium text-[#525252] hidden sm:inline">praktispos.app/dashboard</span>
         </div>
         <div className="flex items-center gap-2 text-xs font-semibold text-[#000000]">
-          <span className="w-2 h-2 rounded-full bg-[#E0511F] animate-pulse" />
-          <span>Sistem Kasir Aktif</span>
+          <img src={logoIcon} alt="Praktis POS" className="w-4 h-4 object-contain" />
+          <span>Sistem Kasir Praktis POS Aktif</span>
         </div>
       </div>
 

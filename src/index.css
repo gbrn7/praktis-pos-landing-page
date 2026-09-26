@@ -1,8 +1,25 @@
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  src: url('./assets/font/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf') format('truetype');
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  src: url('./assets/font/Plus_Jakarta_Sans/PlusJakartaSans-Italic-VariableFont_wght.ttf') format('truetype');
+  font-weight: 200 800;
+  font-style: italic;
+  font-display: swap;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 body {
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   background-color: #FDFDFD;
   color: #000000;
   overflow-x: hidden;

@@ -1,7 +1,7 @@
 import { PackageDetail } from '../types';
 
 export const PACKAGE_DATA: PackageDetail = {
-  title: 'Paket Komplit Mesin Kasir Super POS',
+  title: 'Paket Komplit Mesin Kasir Praktis POS',
   tagline: '1 Set Hardware Kasir Premium + Software Seumur Hidup Siap Pakai',
   priceNote: 'Sekali Beli • Tanpa Biaya Langganan Bulanan • Hak Milik Seumur Hidup',
   hardwareList: [
@@ -39,7 +39,7 @@ export const PACKAGE_DATA: PackageDetail = {
     },
     {
       id: 'software',
-      name: 'Software Super POS Lisensi Lifetime',
+      name: 'Software Praktis POS Lisensi Lifetime',
       category: 'Sistem Kasir & Keuangan',
       spec: 'Lisensi seumur hidup, multi-user kasir, database lokal & cloud sync',
       description: 'Lengkap dengan modul pemisah Kas Modal & Kas Profit, HPP, cetak barcode, dan retur barang.',
@@ -57,7 +57,7 @@ export const PACKAGE_DATA: PackageDetail = {
     'Bantuan Teknis & Konsultasi Langsung via WhatsApp',
     '100% Bebas Biaya Langganan Bulanan atau Tahunan',
   ],
-  waTemplate: 'Halo tim Super POS, saya tertarik dengan Paket Komplit Mesin Kasir Siap Pakai. Mohon informasi ketersediaan paket dan cara pemesanannya. Terima kasih!',
+  waTemplate: 'Halo tim Praktis POS, saya tertarik dengan Paket Komplit Mesin Kasir Siap Pakai. Mohon informasi ketersediaan paket dan cara pemesanannya. Terima kasih!',
 };
 
 export const WHATSAPP_NUMBER = '6281234567890';

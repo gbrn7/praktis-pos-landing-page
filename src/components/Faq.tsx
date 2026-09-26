@@ -21,7 +21,7 @@ export const Faq: React.FC = () => {
             Pertanyaan yang Sering Diajukan
           </h2>
           <p className="mt-2 text-sm text-[#525252]">
-            Informasi penting terkait perangkat keras, software, dan garansi paket Super POS.
+            Informasi penting terkait perangkat keras, software, dan garansi paket Praktis POS.
           </p>
         </div>
 

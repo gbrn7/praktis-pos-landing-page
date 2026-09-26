@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Store, MessageCircle, MonitorPlay, Menu, X } from 'lucide-react';
+import { MessageCircle, MonitorPlay, Menu, X } from 'lucide-react';
 import { PACKAGE_DATA, WHATSAPP_NUMBER, LIVE_DEMO_URL } from '../data/package-data';
+import logoWithText from '../assets/img/Logo-with-text-white-bg.png';
 
 export const Navbar: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -14,14 +15,15 @@ export const Navbar: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-20">
           {/* Logo */}
-          <a href="#" className="flex items-center gap-2.5 group cursor-pointer">
-            <div className="w-10 h-10 rounded-xl bg-[#FFF0EB] flex items-center justify-center text-[#E0511F] group-hover:bg-[#FFE4DB] transition-colors duration-200">
-              <Store className="w-5 h-5 stroke-[2.2]" />
-            </div>
-            <div>
-              <span className="text-xl font-bold tracking-tight text-[#000000]">Super<span className="text-[#E0511F]">POS</span></span>
-              <span className="hidden sm:inline-block ml-2 text-xs font-semibold px-2 py-0.5 rounded-full bg-[#FFF0EB] text-[#E0511F]">All-in-One</span>
-            </div>
+          <a href="#" className="flex items-center gap-2 group cursor-pointer">
+            <img
+              src={logoWithText}
+              alt="Praktis POS"
+              className="h-9 sm:h-11 w-auto object-contain"
+            />
+            <span className="hidden sm:inline-block ml-1 text-xs font-semibold px-2 py-0.5 rounded-full bg-[#FFF0EB] text-[#E0511F]">
+              All-in-One
+            </span>
           </a>
 
           {/* Desktop Nav Links */}

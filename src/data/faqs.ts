@@ -4,7 +4,7 @@ export const FAQS: FaqItem[] = [
   {
     id: 'faq-1',
     question: 'Apakah mesin kasir ini memerlukan koneksi internet setiap saat?',
-    answer: 'Tidak wajib. Sistem Super POS dapat beroperasi secara offline di jaringan lokal toko Anda. Transaksi kasir, cetak struk, dan update stok tetap berjalan lancar saat internet mati. Saat terhubung internet, data dapat disinkronkan untuk dipantau pemilik dari jauh.',
+    answer: 'Tidak wajib. Sistem Praktis POS dapat beroperasi secara offline di jaringan lokal toko Anda. Transaksi kasir, cetak struk, dan update stok tetap berjalan lancar saat internet mati. Saat terhubung internet, data dapat disinkronkan untuk dipantau pemilik dari jauh.',
   },
   {
     id: 'faq-2',
