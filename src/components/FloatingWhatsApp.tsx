@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { MessageCircle } from 'lucide-react';
 import { PACKAGE_DATA, WHATSAPP_NUMBER } from '../data/package-data';

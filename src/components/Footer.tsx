@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import { MessageCircle } from 'lucide-react';
 import { PACKAGE_DATA, WHATSAPP_NUMBER } from '../data/package-data';
 import logoWithText from '../assets/img/Logo-with-text-white-bg.png';
@@ -15,9 +16,11 @@ export const Footer: React.FC = () => {
           {/* Brand */}
           <div className="md:col-span-2">
             <div className="flex items-center gap-2">
-              <img
+              <Image
                 src={logoWithText}
                 alt="Praktis POS"
+                height={40}
+                width={150}
                 className="h-9 sm:h-10 w-auto object-contain"
               />
             </div>

@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import { ShoppingCart, Wallet, ArrowUpRight, TrendingUp, CheckCircle2 } from 'lucide-react';
 import logoIcon from '../assets/img/Logo.png';
 
@@ -14,7 +15,13 @@ export const MockupPreview: React.FC = () => {
           <span className="ml-2 text-xs font-medium text-[#525252] hidden sm:inline">praktispos.app/dashboard</span>
         </div>
         <div className="flex items-center gap-2 text-xs font-semibold text-[#000000]">
-          <img src={logoIcon} alt="Praktis POS" className="w-4 h-4 object-contain" />
+          <Image
+            src={logoIcon}
+            alt="Praktis POS"
+            width={16}
+            height={16}
+            className="w-4 h-4 object-contain"
+          />
           <span>Sistem Kasir Praktis POS Aktif</span>
         </div>
       </div>

@@ -1,4 +1,7 @@
+'use client';
+
 import React, { useState } from 'react';
+import Image from 'next/image';
 import { MessageCircle, MonitorPlay, Menu, X } from 'lucide-react';
 import { PACKAGE_DATA, WHATSAPP_NUMBER, LIVE_DEMO_URL } from '../data/package-data';
 import logoWithText from '../assets/img/Logo-with-text-white-bg.png';
@@ -16,10 +19,13 @@ export const Navbar: React.FC = () => {
         <div className="flex items-center justify-between h-16 sm:h-20">
           {/* Logo */}
           <a href="#" className="flex items-center gap-2 group cursor-pointer">
-            <img
+            <Image
               src={logoWithText}
               alt="Praktis POS"
+              height={44}
+              width={160}
               className="h-9 sm:h-11 w-auto object-contain"
+              priority
             />
             <span className="hidden sm:inline-block ml-1 text-xs font-semibold px-2 py-0.5 rounded-full bg-[#FFF0EB] text-[#E0511F]">
               All-in-One
