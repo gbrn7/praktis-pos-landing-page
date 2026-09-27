@@ -21,9 +21,52 @@ import {
   Plus,
   Trash2,
   BarChart3,
+  Store,
+  ShoppingBag,
+  Coffee,
+  Utensils,
+  Scissors,
+  Shirt,
+  Wrench,
+  Pill,
+  Package,
+  Tag,
+  Laptop,
+  Flower2,
+  BookOpen,
+  Car,
 } from 'lucide-react';
 import { updateSiteSettings } from './actions';
-import { SocialProofMetric, DEFAULT_SOCIAL_PROOF_METRICS } from '@/types';
+import {
+  SocialProofMetric,
+  DEFAULT_SOCIAL_PROOF_METRICS,
+  TargetIndustryItem,
+  DEFAULT_TARGET_INDUSTRIES,
+  DEFAULT_TARGET_INDUSTRIES_TITLE,
+} from '@/types';
+
+export const INDUSTRY_ICON_OPTIONS = [
+  { value: 'Store', label: 'Toko / Minimarket', icon: Store },
+  { value: 'ShoppingBag', label: 'Tas Belanja / Fashion', icon: ShoppingBag },
+  { value: 'Coffee', label: 'Kafe / Kopi', icon: Coffee },
+  { value: 'Sparkles', label: 'Bintang / Kilau', icon: Sparkles },
+  { value: 'Utensils', label: 'Resto / Kuliner', icon: Utensils },
+  { value: 'Scissors', label: 'Salon / Barbershop', icon: Scissors },
+  { value: 'Shirt', label: 'Pakaian / Distro', icon: Shirt },
+  { value: 'Wrench', label: 'Bengkel / Perkakas', icon: Wrench },
+  { value: 'Pill', label: 'Apotek / Farmasi', icon: Pill },
+  { value: 'Package', label: 'Grosir / Dus Paket', icon: Package },
+  { value: 'Tag', label: 'Label Harga / Retail', icon: Tag },
+  { value: 'Laptop', label: 'Elektronik / Komputer', icon: Laptop },
+  { value: 'Flower2', label: 'Bunga / Florist', icon: Flower2 },
+  { value: 'BookOpen', label: 'Buku / ATK', icon: BookOpen },
+  { value: 'Car', label: 'Otomotif / Cuci Mobil', icon: Car },
+];
+
+export const getIndustryIcon = (iconName?: string) => {
+  const match = INDUSTRY_ICON_OPTIONS.find((item) => item.value === iconName);
+  return match ? match.icon : Store;
+};
 
 interface SiteSettingsData {
   heroPill: string;
@@ -32,6 +75,8 @@ interface SiteSettingsData {
   heroMockupImage?: string | null;
   heroHighlights?: string[];
   socialProofMetrics?: SocialProofMetric[];
+  targetIndustries?: TargetIndustryItem[];
+  targetIndustriesTitle?: string;
   waNumber: string;
   waTemplate: string;
   liveDemoUrl: string;
@@ -54,13 +99,60 @@ export const SettingsForm: React.FC<Props> = ({ initialSettings }) => {
       'Gratis Setup & Training',
     ],
     socialProofMetrics: initialSettings.socialProofMetrics || DEFAULT_SOCIAL_PROOF_METRICS,
+    targetIndustries: initialSettings.targetIndustries || DEFAULT_TARGET_INDUSTRIES,
+    targetIndustriesTitle: initialSettings.targetIndustriesTitle || DEFAULT_TARGET_INDUSTRIES_TITLE,
   });
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [savingMockup, setSavingMockup] = useState(false);
   const [savingHero, setSavingHero] = useState(false);
   const [savingMetrics, setSavingMetrics] = useState(false);
+  const [savingIndustries, setSavingIndustries] = useState(false);
   const [feedback, setFeedback] = useState<{ msg: string; type: 'success' | 'error' } | null>(null);
+
+  // --- Target Industries Handlers ---
+  const handleIndustryChange = (index: number, field: keyof TargetIndustryItem, value: string) => {
+    const list = [...(form.targetIndustries || DEFAULT_TARGET_INDUSTRIES)].map((item) => ({ ...item }));
+    if (list[index]) {
+      list[index][field] = value;
+      setForm({ ...form, targetIndustries: list });
+    }
+  };
+
+  const handleAddIndustry = () => {
+    const list = [...(form.targetIndustries || DEFAULT_TARGET_INDUSTRIES)].map((item) => ({ ...item }));
+    list.push({ name: 'Bisnis Baru', iconName: 'Store' });
+    setForm({ ...form, targetIndustries: list });
+  };
+
+  const handleRemoveIndustry = (index: number) => {
+    const list = [...(form.targetIndustries || DEFAULT_TARGET_INDUSTRIES)].map((item) => ({ ...item }));
+    list.splice(index, 1);
+    setForm({ ...form, targetIndustries: list });
+  };
+
+  const handleResetIndustries = () => {
+    setForm({
+      ...form,
+      targetIndustries: DEFAULT_TARGET_INDUSTRIES.map((item) => ({ ...item })),
+      targetIndustriesTitle: DEFAULT_TARGET_INDUSTRIES_TITLE,
+    });
+  };
+
+  const handleSaveIndustriesOnly = async () => {
+    setSavingIndustries(true);
+    setFeedback(null);
+    const res = await updateSiteSettings(form);
+    if (res.success) {
+      setFeedback({
+        msg: 'Target jenis bisnis & industri berhasil disimpan dan langsung aktif di landing page!',
+        type: 'success',
+      });
+    } else {
+      setFeedback({ msg: res.error || 'Gagal menyimpan target industri', type: 'error' });
+    }
+    setSavingIndustries(false);
+  };
 
   // --- Metrics Handlers ---
   const handleMetricChange = (index: number, field: keyof SocialProofMetric, value: string) => {
@@ -645,6 +737,159 @@ export const SettingsForm: React.FC<Props> = ({ initialSettings }) => {
           >
             <Save className="w-4 h-4" />
             <span>{savingMetrics ? 'Menyimpan...' : 'Simpan Metrik Keunggulan'}</span>
+          </Button>
+        </CardFooter>
+      </Card>
+
+      {/* Target Industries Settings */}
+      <Card>
+        <CardHeader>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="flex items-center gap-2">
+              <Store className="w-5 h-5 text-[#E0511F]" />
+              <div>
+                <CardTitle>Target Industri & Jenis Bisnis (Social Proof)</CardTitle>
+                <CardDescription>
+                  Atur jenis usaha/industri yang didukung Praktis POS (tampil sebagai lencana pill di bawah 4 metrik keunggulan)
+                </CardDescription>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={handleResetIndustries}
+                className="text-xs h-8"
+                title="Kembalikan daftar industri ke bawaan"
+              >
+                <RotateCcw className="w-3 h-3 mr-1" />
+                <span>Reset Default</span>
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={handleAddIndustry}
+                className="text-xs h-8 text-[#E0511F] border-[#E0511F]/30 hover:bg-[#FFF0EB] dark:hover:bg-[#2B150B]"
+              >
+                <Plus className="w-3 h-3 mr-1" />
+                <span>Tambah Industri</span>
+              </Button>
+            </div>
+          </div>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="space-y-1.5">
+            <label className="text-xs font-bold text-[#000000] dark:text-[#FFFFFF]">
+              Judul / Teks Pengantar Di Atas Lencana
+            </label>
+            <Input
+              value={form.targetIndustriesTitle || ''}
+              onChange={(e) => setForm({ ...form, targetIndustriesTitle: e.target.value })}
+              placeholder="Contoh: Dirancang & Teruji untuk Berbagai Jenis Bisnis Retail & UMKM"
+              required
+            />
+          </div>
+
+          <div className="space-y-2 pt-2">
+            <label className="text-xs font-bold text-[#000000] dark:text-[#FFFFFF]">
+              Daftar Lencana Industri & Ikon
+            </label>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {(form.targetIndustries || []).map((ind, idx) => {
+                const CurrentIcon = getIndustryIcon(ind.iconName);
+                return (
+                  <div
+                    key={idx}
+                    className="p-3 rounded-xl border border-[#E7E7EE] dark:border-[#232326] bg-zinc-50/60 dark:bg-zinc-900/50 flex flex-col gap-2.5"
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-bold text-[#525252] dark:text-[#A1A1AA] flex items-center gap-1.5">
+                        <span className="w-2 h-2 rounded-full bg-[#E0511F]" />
+                        <span>Industri #{idx + 1}</span>
+                      </span>
+                      {(form.targetIndustries || []).length > 1 && (
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => handleRemoveIndustry(idx)}
+                          title="Hapus industri ini"
+                          className="h-7 w-7 p-0 text-[#71717A] hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </Button>
+                      )}
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <div className="w-9 h-9 rounded-lg bg-white dark:bg-zinc-800 border border-[#E7E7EE] dark:border-[#232326] flex items-center justify-center shrink-0 text-[#E0511F]">
+                        <CurrentIcon className="w-4 h-4" />
+                      </div>
+                      <Input
+                        value={ind.name}
+                        onChange={(e) => handleIndustryChange(idx, 'name', e.target.value)}
+                        placeholder="Contoh: Minimarket & Kelontong"
+                        className="h-9 text-xs flex-1"
+                        required
+                      />
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <label className="text-[11px] text-[#71717A] shrink-0">Ikon:</label>
+                      <select
+                        value={ind.iconName}
+                        onChange={(e) => handleIndustryChange(idx, 'iconName', e.target.value)}
+                        className="h-8 text-xs w-full rounded-md border border-[#E7E7EE] dark:border-[#232326] bg-white dark:bg-zinc-800 px-2 text-[#000000] dark:text-[#FFFFFF]"
+                      >
+                        {INDUSTRY_ICON_OPTIONS.map((opt) => (
+                          <option key={opt.value} value={opt.value}>
+                            {opt.label} ({opt.value})
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Live Preview */}
+          <div className="mt-4 p-4 rounded-xl border border-[#E7E7EE] dark:border-[#232326] bg-white dark:bg-[#111113]">
+            <p className="text-center text-xs font-semibold text-[#525252] dark:text-[#A1A1AA] uppercase tracking-wider mb-4">
+              {form.targetIndustriesTitle || 'Dirancang & Teruji untuk Berbagai Jenis Bisnis Retail & UMKM'}
+            </p>
+            <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+              {(form.targetIndustries || []).map((ind, idx) => {
+                const Icon = getIndustryIcon(ind.iconName);
+                return (
+                  <div
+                    key={idx}
+                    className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[#E7E7EE] dark:border-[#232326] bg-[#FDFDFD] dark:bg-[#18181B] text-xs font-medium text-[#000000] dark:text-[#E4E4E7] shadow-2xs"
+                  >
+                    <Icon className="w-3.5 h-3.5 text-[#E0511F]" />
+                    <span>{ind.name || '—'}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </CardContent>
+
+        <CardFooter className="pt-3 border-t border-[#E7E7EE] dark:border-[#232326] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <span className="text-xs text-[#525252] dark:text-[#A1A1AA]">
+            {savingIndustries ? 'Sedang menyimpan target industri...' : 'Simpan perubahan daftar industri & jenis bisnis di atas.'}
+          </span>
+          <Button
+            type="button"
+            onClick={handleSaveIndustriesOnly}
+            disabled={savingIndustries || loading}
+            className="font-bold gap-2 bg-[#E0511F] hover:bg-[#C94213] text-white shrink-0"
+          >
+            <Save className="w-4 h-4" />
+            <span>{savingIndustries ? 'Menyimpan...' : 'Simpan Target Industri'}</span>
           </Button>
         </CardFooter>
       </Card>

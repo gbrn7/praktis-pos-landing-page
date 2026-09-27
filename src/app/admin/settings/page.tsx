@@ -2,7 +2,7 @@ import React from 'react';
 import { db } from '@/lib/db';
 import { siteSettings } from '@/lib/db/schema';
 import { ensureDatabaseSeeded } from '@/lib/db/seed';
-import { DEFAULT_SOCIAL_PROOF_METRICS, SocialProofMetric } from '@/lib/db/queries';
+import { DEFAULT_SOCIAL_PROOF_METRICS, SocialProofMetric, DEFAULT_TARGET_INDUSTRIES, DEFAULT_TARGET_INDUSTRIES_TITLE, TargetIndustryItem } from '@/types';
 import { SettingsForm } from './SettingsForm';
 import { Sliders } from 'lucide-react';
 
@@ -37,6 +37,18 @@ export default async function AdminSettingsPage() {
     }
   }
 
+  let initialTargetIndustries: TargetIndustryItem[] = DEFAULT_TARGET_INDUSTRIES;
+  if (current?.targetIndustries) {
+    try {
+      const val = JSON.parse(current.targetIndustries);
+      if (Array.isArray(val) && val.length > 0) {
+        initialTargetIndustries = val;
+      }
+    } catch {
+      // fallback
+    }
+  }
+
   const settingsData = {
     heroPill: current?.heroPill || 'Mesin Kasir Praktis POS • Paket Siap Pakai',
     heroHeadline: current?.heroHeadline || 'Solusi Mesin Kasir Lengkap: Buka Dus, Colok, Langsung Siap Jualan.',
@@ -44,6 +56,8 @@ export default async function AdminSettingsPage() {
     heroMockupImage: current?.heroMockupImage || '/mockup-dashboard.png',
     heroHighlights: initialHighlights,
     socialProofMetrics: initialSocialProofMetrics,
+    targetIndustries: initialTargetIndustries,
+    targetIndustriesTitle: current?.targetIndustriesTitle || DEFAULT_TARGET_INDUSTRIES_TITLE,
     waNumber: current?.waNumber || '6281234567890',
     waTemplate: current?.waTemplate || 'Halo tim Praktis POS, saya tertarik dengan Paket Komplit Mesin Kasir Siap Pakai. Mohon informasi ketersediaan paket dan cara pemesanannya. Terima kasih!',
     liveDemoUrl: current?.liveDemoUrl || 'http://localhost:8000',

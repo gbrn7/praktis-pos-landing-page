@@ -41,6 +41,8 @@ export function ensureDatabaseSeeded() {
       hero_mockup_image TEXT,
       hero_highlights TEXT,
       social_proof_metrics TEXT,
+      target_industries TEXT,
+      target_industries_title TEXT DEFAULT 'Dirancang & Teruji untuk Berbagai Jenis Bisnis Retail & UMKM',
       wa_number TEXT NOT NULL DEFAULT '6281234567890',
       wa_template TEXT NOT NULL,
       live_demo_url TEXT NOT NULL,
@@ -132,6 +134,12 @@ export function ensureDatabaseSeeded() {
     if (siteCols.length > 0 && !siteCols.some((col) => col.name === 'social_proof_metrics')) {
       sqlite.exec("ALTER TABLE site_settings ADD COLUMN social_proof_metrics TEXT;");
     }
+    if (siteCols.length > 0 && !siteCols.some((col) => col.name === 'target_industries')) {
+      sqlite.exec("ALTER TABLE site_settings ADD COLUMN target_industries TEXT;");
+    }
+    if (siteCols.length > 0 && !siteCols.some((col) => col.name === 'target_industries_title')) {
+      sqlite.exec("ALTER TABLE site_settings ADD COLUMN target_industries_title TEXT;");
+    }
   } catch (err) {
     console.error('Migration error on site_settings:', err);
   }
@@ -141,9 +149,9 @@ export function ensureDatabaseSeeded() {
     sqlite
       .prepare(`
         INSERT INTO site_settings (
-          hero_pill, hero_headline, hero_subtitle, hero_mockup_image, hero_highlights, social_proof_metrics, wa_number, wa_template, live_demo_url,
+          hero_pill, hero_headline, hero_subtitle, hero_mockup_image, hero_highlights, social_proof_metrics, target_industries, target_industries_title, wa_number, wa_template, live_demo_url,
           demo_banner_title, demo_banner_desc, cta_banner_title, cta_banner_desc
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       `)
       .run(
         'Mesin Kasir Praktis POS • Paket Siap Pakai',
@@ -157,6 +165,13 @@ export function ensureDatabaseSeeded() {
           { number: '2 Dompet', label: 'Terpisah Otomatis', desc: 'Uang modal kulakan & laba bersih tidak akan tercampur' },
           { number: '1 Tahun', label: 'Garansi Resmi', desc: 'Jaminan penggantian unit hardware & konsultasi teknis' },
         ]),
+        JSON.stringify([
+          { name: 'Minimarket & Kelontong', iconName: 'Store' },
+          { name: 'Fashion, Pakaian & Butik', iconName: 'ShoppingBag' },
+          { name: 'Kafe, Resto & F&B Retail', iconName: 'Coffee' },
+          { name: 'Toko ATK, Bangunan & Elektronik', iconName: 'Sparkles' },
+        ]),
+        'Dirancang & Teruji untuk Berbagai Jenis Bisnis Retail & UMKM',
         WHATSAPP_NUMBER,
         PACKAGE_DATA.waTemplate,
         LIVE_DEMO_URL,

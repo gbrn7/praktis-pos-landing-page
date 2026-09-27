@@ -24,6 +24,8 @@ export const siteSettings = sqliteTable('site_settings', {
   heroMockupImage: text('hero_mockup_image'),
   heroHighlights: text('hero_highlights'),
   socialProofMetrics: text('social_proof_metrics'),
+  targetIndustries: text('target_industries'),
+  targetIndustriesTitle: text('target_industries_title').default('Dirancang & Teruji untuk Berbagai Jenis Bisnis Retail & UMKM'),
   waNumber: text('wa_number').notNull().default('6281234567890'),
   waTemplate: text('wa_template').notNull(),
   liveDemoUrl: text('live_demo_url').notNull(),

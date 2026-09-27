@@ -21,7 +21,13 @@ export default async function Home() {
       <Navbar settings={settings} visibility={visibility} />
       <main>
         {visibility.hero && <Hero settings={settings} />}
-        {visibility.social_proof && <SocialProof metrics={settings.socialProofMetrics} />}
+        {visibility.social_proof && (
+          <SocialProof
+            metrics={settings.socialProofMetrics}
+            industries={settings.targetIndustries}
+            industriesTitle={settings.targetIndustriesTitle}
+          />
+        )}
         {visibility.hardware && (
           <HardwareShowcase items={hardwareList} bonuses={bonuses} settings={settings} />
         )}

@@ -47,3 +47,19 @@ export const DEFAULT_SOCIAL_PROOF_METRICS: SocialProofMetric[] = [
   { number: '1 Tahun', label: 'Garansi Resmi', desc: 'Jaminan penggantian unit hardware & konsultasi teknis' },
 ];
 
+export interface TargetIndustryItem {
+  name: string;
+  iconName: string;
+}
+
+export const DEFAULT_TARGET_INDUSTRIES: TargetIndustryItem[] = [
+  { name: 'Minimarket & Kelontong', iconName: 'Store' },
+  { name: 'Fashion, Pakaian & Butik', iconName: 'ShoppingBag' },
+  { name: 'Kafe, Resto & F&B Retail', iconName: 'Coffee' },
+  { name: 'Toko ATK, Bangunan & Elektronik', iconName: 'Sparkles' },
+];
+
+export const DEFAULT_TARGET_INDUSTRIES_TITLE =
+  'Dirancang & Teruji untuk Berbagai Jenis Bisnis Retail & UMKM';
+
+

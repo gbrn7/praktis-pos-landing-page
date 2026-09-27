@@ -13,6 +13,8 @@ export async function updateSiteSettings(data: {
   heroMockupImage?: string | null;
   heroHighlights?: string[] | string | null;
   socialProofMetrics?: { number: string; label: string; desc: string }[] | string | null;
+  targetIndustries?: { name: string; iconName: string }[] | string | null;
+  targetIndustriesTitle?: string | null;
   waNumber: string;
   waTemplate: string;
   liveDemoUrl: string;
@@ -37,6 +39,11 @@ export async function updateSiteSettings(data: {
         ? JSON.stringify(data.socialProofMetrics)
         : typeof data.socialProofMetrics === 'string'
         ? data.socialProofMetrics
+        : null,
+      targetIndustries: Array.isArray(data.targetIndustries)
+        ? JSON.stringify(data.targetIndustries)
+        : typeof data.targetIndustries === 'string'
+        ? data.targetIndustries
         : null,
       updatedAt: Math.floor(Date.now() / 1000),
     };

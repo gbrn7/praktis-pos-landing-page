@@ -11,10 +11,10 @@ import { ensureDatabaseSeeded } from './seed';
 import { PACKAGE_DATA, WHATSAPP_NUMBER, LIVE_DEMO_URL } from '@/data/package-data';
 import { CORE_FEATURES } from '@/data/features';
 import { FAQS } from '@/data/faqs';
-import { FeatureItem, FaqItem, HardwareItem, SocialProofMetric, DEFAULT_SOCIAL_PROOF_METRICS } from '@/types';
+import { FeatureItem, FaqItem, HardwareItem, SocialProofMetric, DEFAULT_SOCIAL_PROOF_METRICS, TargetIndustryItem, DEFAULT_TARGET_INDUSTRIES, DEFAULT_TARGET_INDUSTRIES_TITLE } from '@/types';
 
-export { DEFAULT_SOCIAL_PROOF_METRICS };
-export type { SocialProofMetric };
+export { DEFAULT_SOCIAL_PROOF_METRICS, DEFAULT_TARGET_INDUSTRIES, DEFAULT_TARGET_INDUSTRIES_TITLE };
+export type { SocialProofMetric, TargetIndustryItem };
 
 export interface SiteSettingsPublic {
   heroPill: string;
@@ -23,6 +23,8 @@ export interface SiteSettingsPublic {
   heroMockupImage: string;
   heroHighlights: string[];
   socialProofMetrics: SocialProofMetric[];
+  targetIndustries: TargetIndustryItem[];
+  targetIndustriesTitle: string;
   waNumber: string;
   waTemplate: string;
   liveDemoUrl: string;
@@ -87,6 +89,18 @@ export async function getLandingPageData(): Promise<LandingPageData> {
       }
     }
 
+    let parsedIndustries: TargetIndustryItem[] = DEFAULT_TARGET_INDUSTRIES;
+    if (settingsRecord?.targetIndustries) {
+      try {
+        const val = JSON.parse(settingsRecord.targetIndustries);
+        if (Array.isArray(val) && val.length > 0) {
+          parsedIndustries = val;
+        }
+      } catch {
+        // fallback
+      }
+    }
+
     const settings: SiteSettingsPublic = settingsRecord
       ? {
           heroPill: settingsRecord.heroPill,
@@ -95,6 +109,8 @@ export async function getLandingPageData(): Promise<LandingPageData> {
           heroMockupImage: settingsRecord.heroMockupImage || '/mockup-dashboard.png',
           heroHighlights: parsedHighlights,
           socialProofMetrics: parsedMetrics,
+          targetIndustries: parsedIndustries,
+          targetIndustriesTitle: settingsRecord.targetIndustriesTitle || DEFAULT_TARGET_INDUSTRIES_TITLE,
           waNumber: settingsRecord.waNumber,
           waTemplate: settingsRecord.waTemplate,
           liveDemoUrl: settingsRecord.liveDemoUrl,
@@ -111,6 +127,8 @@ export async function getLandingPageData(): Promise<LandingPageData> {
           heroMockupImage: '/mockup-dashboard.png',
           heroHighlights: ['Hak Milik Seumur Hidup', 'Garansi Hardware 1 Tahun', 'Gratis Setup & Training'],
           socialProofMetrics: DEFAULT_SOCIAL_PROOF_METRICS,
+          targetIndustries: DEFAULT_TARGET_INDUSTRIES,
+          targetIndustriesTitle: DEFAULT_TARGET_INDUSTRIES_TITLE,
           waNumber: WHATSAPP_NUMBER,
           waTemplate: PACKAGE_DATA.waTemplate,
           liveDemoUrl: LIVE_DEMO_URL,
@@ -204,6 +222,8 @@ export async function getLandingPageData(): Promise<LandingPageData> {
         heroMockupImage: '/mockup-dashboard.png',
         heroHighlights: ['Hak Milik Seumur Hidup', 'Garansi Hardware 1 Tahun', 'Gratis Setup & Training'],
         socialProofMetrics: DEFAULT_SOCIAL_PROOF_METRICS,
+        targetIndustries: DEFAULT_TARGET_INDUSTRIES,
+        targetIndustriesTitle: DEFAULT_TARGET_INDUSTRIES_TITLE,
         waNumber: WHATSAPP_NUMBER,
         waTemplate: PACKAGE_DATA.waTemplate,
         liveDemoUrl: LIVE_DEMO_URL,

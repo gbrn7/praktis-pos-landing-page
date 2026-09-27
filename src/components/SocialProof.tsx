@@ -1,20 +1,60 @@
 import React from 'react';
-import { Store, ShoppingBag, Coffee, Sparkles } from 'lucide-react';
-import { SocialProofMetric, DEFAULT_SOCIAL_PROOF_METRICS } from '@/types';
+import {
+  Store,
+  ShoppingBag,
+  Coffee,
+  Sparkles,
+  Utensils,
+  Scissors,
+  Shirt,
+  Wrench,
+  Pill,
+  Package,
+  Tag,
+  Laptop,
+  Flower2,
+  BookOpen,
+  Car,
+} from 'lucide-react';
+import {
+  SocialProofMetric,
+  DEFAULT_SOCIAL_PROOF_METRICS,
+  TargetIndustryItem,
+  DEFAULT_TARGET_INDUSTRIES,
+  DEFAULT_TARGET_INDUSTRIES_TITLE,
+} from '@/types';
 
 interface SocialProofProps {
   metrics?: SocialProofMetric[];
+  industries?: TargetIndustryItem[];
+  industriesTitle?: string;
 }
 
-export const SocialProof: React.FC<SocialProofProps> = ({ metrics }) => {
-  const metricItems = metrics && metrics.length > 0 ? metrics : DEFAULT_SOCIAL_PROOF_METRICS;
+const getIndustryIcon = (name?: string) => {
+  switch (name) {
+    case 'Store': return Store;
+    case 'ShoppingBag': return ShoppingBag;
+    case 'Coffee': return Coffee;
+    case 'Sparkles': return Sparkles;
+    case 'Utensils': return Utensils;
+    case 'Scissors': return Scissors;
+    case 'Shirt': return Shirt;
+    case 'Wrench': return Wrench;
+    case 'Pill': return Pill;
+    case 'Package': return Package;
+    case 'Tag': return Tag;
+    case 'Laptop': return Laptop;
+    case 'Flower2': return Flower2;
+    case 'BookOpen': return BookOpen;
+    case 'Car': return Car;
+    default: return Store;
+  }
+};
 
-  const industries = [
-    { name: 'Minimarket & Kelontong', icon: Store },
-    { name: 'Fashion, Pakaian & Butik', icon: ShoppingBag },
-    { name: 'Kafe, Resto & F&B Retail', icon: Coffee },
-    { name: 'Toko ATK, Bangunan & Elektronik', icon: Sparkles },
-  ];
+export const SocialProof: React.FC<SocialProofProps> = ({ metrics, industries, industriesTitle }) => {
+  const metricItems = metrics && metrics.length > 0 ? metrics : DEFAULT_SOCIAL_PROOF_METRICS;
+  const industryItems = industries && industries.length > 0 ? industries : DEFAULT_TARGET_INDUSTRIES;
+  const title = industriesTitle || DEFAULT_TARGET_INDUSTRIES_TITLE;
 
   return (
     <section className="py-12 border-y border-[#E7E7EE] dark:border-[#232326] bg-[#FFFFFF] dark:bg-[#111113] transition-colors duration-200">
@@ -33,11 +73,11 @@ export const SocialProof: React.FC<SocialProofProps> = ({ metrics }) => {
         {/* Target Industri */}
         <div className="mt-10 pt-8 border-t border-[#E7E7EE] dark:border-[#232326]">
           <p className="text-center text-xs font-semibold text-[#525252] dark:text-[#A1A1AA] uppercase tracking-wider mb-4">
-            Dirancang & Teruji untuk Berbagai Jenis Bisnis Retail & UMKM
+            {title}
           </p>
           <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
-            {industries.map((ind, idx) => {
-              const Icon = ind.icon;
+            {industryItems.map((ind, idx) => {
+              const Icon = getIndustryIcon(ind.iconName);
               return (
                 <div
                   key={idx}
