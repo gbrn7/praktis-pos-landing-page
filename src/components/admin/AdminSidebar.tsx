@@ -57,16 +57,16 @@ export const AdminSidebar: React.FC = () => {
 
   return (
     <Sidebar>
-      <SidebarHeader>
+      <SidebarHeader className="justify-center">
         {open ? (
-          <div className="flex items-center justify-between w-full px-1 py-1">
-            <Link href="/admin" className="flex items-center gap-2 min-w-0">
+          <div className="flex items-center justify-center w-full py-1">
+            <Link href="/admin" className="flex items-center justify-center">
               {/* Light mode logo */}
               <Image
                 src={logoLight}
                 alt="Praktis POS"
                 height={34}
-                width={125}
+                width={130}
                 className="h-8 w-auto object-contain dark:hidden"
                 priority
               />
@@ -75,7 +75,7 @@ export const AdminSidebar: React.FC = () => {
                 src={logoDark}
                 alt="Praktis POS"
                 height={34}
-                width={125}
+                width={130}
                 className="h-8 w-auto object-contain hidden dark:block"
                 priority
               />
@@ -83,7 +83,7 @@ export const AdminSidebar: React.FC = () => {
           </div>
         ) : (
           <div className="flex items-center justify-center w-full py-1">
-            <Link href="/admin">
+            <Link href="/admin" className="flex items-center justify-center">
               <Image
                 src={logoIcon}
                 alt="Praktis POS"
