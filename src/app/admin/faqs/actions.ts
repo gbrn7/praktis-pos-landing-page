@@ -3,7 +3,7 @@
 import { db } from '@/lib/db';
 import { faqs } from '@/lib/db/schema';
 import { eq } from 'drizzle-orm';
-import { revalidatePath } from 'next/cache';
+import { safeRevalidatePath } from '@/lib/revalidate';
 import { ensureDatabaseSeeded } from '@/lib/db/seed';
 
 export async function saveFaq(data: {
@@ -39,9 +39,9 @@ export async function saveFaq(data: {
         .run();
     }
 
-    revalidatePath('/');
-    revalidatePath('/admin');
-    revalidatePath('/admin/faqs');
+    safeRevalidatePath('/');
+    safeRevalidatePath('/admin');
+    safeRevalidatePath('/admin/faqs');
 
     return { success: true };
   } catch (error) {
@@ -55,9 +55,9 @@ export async function deleteFaq(id: string) {
     ensureDatabaseSeeded();
     db.delete(faqs).where(eq(faqs.id, id)).run();
 
-    revalidatePath('/');
-    revalidatePath('/admin');
-    revalidatePath('/admin/faqs');
+    safeRevalidatePath('/');
+    safeRevalidatePath('/admin');
+    safeRevalidatePath('/admin/faqs');
 
     return { success: true };
   } catch (error) {

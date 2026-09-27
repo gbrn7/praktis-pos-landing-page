@@ -3,7 +3,7 @@
 import { db } from '@/lib/db';
 import { siteSettings } from '@/lib/db/schema';
 import { eq } from 'drizzle-orm';
-import { revalidatePath } from 'next/cache';
+import { safeRevalidatePath } from '@/lib/revalidate';
 import { ensureDatabaseSeeded } from '@/lib/db/seed';
 
 export async function updateSiteSettings(data: {
@@ -39,9 +39,9 @@ export async function updateSiteSettings(data: {
         .run();
     }
 
-    revalidatePath('/');
-    revalidatePath('/admin');
-    revalidatePath('/admin/settings');
+    safeRevalidatePath('/');
+    safeRevalidatePath('/admin');
+    safeRevalidatePath('/admin/settings');
 
     return { success: true };
   } catch (error) {

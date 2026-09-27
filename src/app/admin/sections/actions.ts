@@ -3,7 +3,7 @@
 import { db } from '@/lib/db';
 import { sectionSettings } from '@/lib/db/schema';
 import { eq } from 'drizzle-orm';
-import { revalidatePath } from 'next/cache';
+import { safeRevalidatePath } from '@/lib/revalidate';
 import { ensureDatabaseSeeded } from '@/lib/db/seed';
 
 export async function toggleSectionVisibility(sectionKey: string, isVisible: boolean) {
@@ -16,9 +16,9 @@ export async function toggleSectionVisibility(sectionKey: string, isVisible: boo
       .where(eq(sectionSettings.sectionKey, sectionKey))
       .run();
 
-    revalidatePath('/');
-    revalidatePath('/admin');
-    revalidatePath('/admin/sections');
+    safeRevalidatePath('/');
+    safeRevalidatePath('/admin');
+    safeRevalidatePath('/admin/sections');
 
     return { success: true, isVisible };
   } catch (error) {

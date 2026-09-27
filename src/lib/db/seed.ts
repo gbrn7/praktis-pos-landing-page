@@ -75,7 +75,7 @@ export function ensureDatabaseSeeded() {
       badge TEXT,
       benefits TEXT NOT NULL,
       display_order INTEGER NOT NULL DEFAULT 0,
-      isActive INTEGER NOT NULL DEFAULT 1
+      is_active INTEGER NOT NULL DEFAULT 1
     );
 
     CREATE TABLE IF NOT EXISTS faqs (
@@ -175,7 +175,7 @@ export function ensureDatabaseSeeded() {
   const featuresCount = sqlite.prepare('SELECT count(*) as count FROM features').get() as { count: number };
   if (featuresCount.count === 0) {
     const insertFeature = sqlite.prepare(`
-      INSERT INTO features (id, title, tagline, description, icon_name, badge, benefits, display_order, isActive)
+      INSERT INTO features (id, title, tagline, description, icon_name, badge, benefits, display_order, is_active)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, 1)
     `);
     CORE_FEATURES.forEach((f, index) => {

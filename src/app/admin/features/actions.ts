@@ -3,7 +3,7 @@
 import { db } from '@/lib/db';
 import { features } from '@/lib/db/schema';
 import { eq } from 'drizzle-orm';
-import { revalidatePath } from 'next/cache';
+import { safeRevalidatePath } from '@/lib/revalidate';
 import { ensureDatabaseSeeded } from '@/lib/db/seed';
 
 export async function saveFeature(data: {
@@ -51,9 +51,9 @@ export async function saveFeature(data: {
         .run();
     }
 
-    revalidatePath('/');
-    revalidatePath('/admin');
-    revalidatePath('/admin/features');
+    safeRevalidatePath('/');
+    safeRevalidatePath('/admin');
+    safeRevalidatePath('/admin/features');
 
     return { success: true };
   } catch (error) {
@@ -67,9 +67,9 @@ export async function deleteFeature(id: string) {
     ensureDatabaseSeeded();
     db.delete(features).where(eq(features.id, id)).run();
 
-    revalidatePath('/');
-    revalidatePath('/admin');
-    revalidatePath('/admin/features');
+    safeRevalidatePath('/');
+    safeRevalidatePath('/admin');
+    safeRevalidatePath('/admin/features');
 
     return { success: true };
   } catch (error) {

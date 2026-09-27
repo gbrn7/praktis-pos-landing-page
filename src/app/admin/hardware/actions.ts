@@ -3,7 +3,7 @@
 import { db } from '@/lib/db';
 import { hardwareItems, hardwareBonuses } from '@/lib/db/schema';
 import { eq } from 'drizzle-orm';
-import { revalidatePath } from 'next/cache';
+import { safeRevalidatePath } from '@/lib/revalidate';
 import { ensureDatabaseSeeded } from '@/lib/db/seed';
 
 export async function saveHardwareItem(data: {
@@ -51,9 +51,9 @@ export async function saveHardwareItem(data: {
         .run();
     }
 
-    revalidatePath('/');
-    revalidatePath('/admin');
-    revalidatePath('/admin/hardware');
+    safeRevalidatePath('/');
+    safeRevalidatePath('/admin');
+    safeRevalidatePath('/admin/hardware');
 
     return { success: true };
   } catch (error) {
@@ -67,9 +67,9 @@ export async function deleteHardwareItem(id: string) {
     ensureDatabaseSeeded();
     db.delete(hardwareItems).where(eq(hardwareItems.id, id)).run();
 
-    revalidatePath('/');
-    revalidatePath('/admin');
-    revalidatePath('/admin/hardware');
+    safeRevalidatePath('/');
+    safeRevalidatePath('/admin');
+    safeRevalidatePath('/admin/hardware');
 
     return { success: true };
   } catch (error) {
@@ -91,8 +91,8 @@ export async function addHardwareBonus(text: string) {
       })
       .run();
 
-    revalidatePath('/');
-    revalidatePath('/admin/hardware');
+    safeRevalidatePath('/');
+    safeRevalidatePath('/admin/hardware');
 
     return { success: true };
   } catch (error) {
@@ -106,8 +106,8 @@ export async function deleteHardwareBonus(id: number) {
     ensureDatabaseSeeded();
     db.delete(hardwareBonuses).where(eq(hardwareBonuses.id, id)).run();
 
-    revalidatePath('/');
-    revalidatePath('/admin/hardware');
+    safeRevalidatePath('/');
+    safeRevalidatePath('/admin/hardware');
 
     return { success: true };
   } catch (error) {
