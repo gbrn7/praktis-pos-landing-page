@@ -17,6 +17,7 @@ export interface SiteSettingsPublic {
   heroPill: string;
   heroHeadline: string;
   heroSubtitle: string;
+  heroMockupImage: string;
   waNumber: string;
   waTemplate: string;
   liveDemoUrl: string;
@@ -62,6 +63,7 @@ export async function getLandingPageData(): Promise<LandingPageData> {
           heroPill: settingsRecord.heroPill,
           heroHeadline: settingsRecord.heroHeadline,
           heroSubtitle: settingsRecord.heroSubtitle,
+          heroMockupImage: settingsRecord.heroMockupImage || '/mockup-dashboard.png',
           waNumber: settingsRecord.waNumber,
           waTemplate: settingsRecord.waTemplate,
           liveDemoUrl: settingsRecord.liveDemoUrl,
@@ -75,6 +77,7 @@ export async function getLandingPageData(): Promise<LandingPageData> {
           heroHeadline: 'Solusi Mesin Kasir Lengkap: Buka Dus, Colok, Langsung Siap Jualan.',
           heroSubtitle:
             'Bersama Praktis POS, kelola transaksi kasir secepat kilat, pantau stok akurat, dan otomatis pisahkan uang modal kulakan vs laba bersih toko Anda. 100% tanpa biaya langganan bulanan seumur hidup.',
+          heroMockupImage: '/mockup-dashboard.png',
           waNumber: WHATSAPP_NUMBER,
           waTemplate: PACKAGE_DATA.waTemplate,
           liveDemoUrl: LIVE_DEMO_URL,
@@ -165,6 +168,7 @@ export async function getLandingPageData(): Promise<LandingPageData> {
         heroHeadline: 'Solusi Mesin Kasir Lengkap: Buka Dus, Colok, Langsung Siap Jualan.',
         heroSubtitle:
           'Bersama Praktis POS, kelola transaksi kasir secepat kilat, pantau stok akurat, dan otomatis pisahkan uang modal kulakan vs laba bersih toko Anda. 100% tanpa biaya langganan bulanan seumur hidup.',
+        heroMockupImage: '/mockup-dashboard.png',
         waNumber: WHATSAPP_NUMBER,
         waTemplate: PACKAGE_DATA.waTemplate,
         liveDemoUrl: LIVE_DEMO_URL,

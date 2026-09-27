@@ -83,7 +83,7 @@ export const Hero: React.FC<HeroProps> = ({ settings }) => {
 
         {/* Mockup Dashboard Preview Container */}
         <div className="mt-12 sm:mt-16 max-w-4xl mx-auto">
-          <MockupPreview />
+          <MockupPreview imageUrl={settings?.heroMockupImage} />
         </div>
       </div>
     </section>

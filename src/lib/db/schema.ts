@@ -21,6 +21,7 @@ export const siteSettings = sqliteTable('site_settings', {
   heroPill: text('hero_pill').notNull().default('Mesin Kasir Praktis POS • Paket Siap Pakai'),
   heroHeadline: text('hero_headline').notNull(),
   heroSubtitle: text('hero_subtitle').notNull(),
+  heroMockupImage: text('hero_mockup_image'),
   waNumber: text('wa_number').notNull().default('6281234567890'),
   waTemplate: text('wa_template').notNull(),
   liveDemoUrl: text('live_demo_url').notNull(),

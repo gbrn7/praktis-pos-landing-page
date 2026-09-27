@@ -38,6 +38,7 @@ export function ensureDatabaseSeeded() {
       hero_pill TEXT NOT NULL DEFAULT 'Mesin Kasir Praktis POS • Paket Siap Pakai',
       hero_headline TEXT NOT NULL,
       hero_subtitle TEXT NOT NULL,
+      hero_mockup_image TEXT,
       wa_number TEXT NOT NULL DEFAULT '6281234567890',
       wa_template TEXT NOT NULL,
       live_demo_url TEXT NOT NULL,
@@ -117,20 +118,30 @@ export function ensureDatabaseSeeded() {
     }
   }
 
-  // 4. Seed Site Settings
+  // 4. Seed Site Settings & Migration
+  try {
+    const siteCols = sqlite.prepare("PRAGMA table_info(site_settings)").all() as Array<{ name: string }>;
+    if (siteCols.length > 0 && !siteCols.some((col) => col.name === 'hero_mockup_image')) {
+      sqlite.exec("ALTER TABLE site_settings ADD COLUMN hero_mockup_image TEXT;");
+    }
+  } catch (err) {
+    console.error('Migration error on site_settings:', err);
+  }
+
   const siteCount = sqlite.prepare('SELECT count(*) as count FROM site_settings').get() as { count: number };
   if (siteCount.count === 0) {
     sqlite
       .prepare(`
         INSERT INTO site_settings (
-          hero_pill, hero_headline, hero_subtitle, wa_number, wa_template, live_demo_url,
+          hero_pill, hero_headline, hero_subtitle, hero_mockup_image, wa_number, wa_template, live_demo_url,
           demo_banner_title, demo_banner_desc, cta_banner_title, cta_banner_desc
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       `)
       .run(
         'Mesin Kasir Praktis POS • Paket Siap Pakai',
         'Solusi Mesin Kasir Lengkap: Buka Dus, Colok, Langsung Siap Jualan.',
         'Bersama Praktis POS, kelola transaksi kasir secepat kilat, pantau stok akurat, dan otomatis pisahkan uang modal kulakan vs laba bersih toko Anda. 100% tanpa biaya langganan bulanan seumur hidup.',
+        '/mockup-dashboard.png',
         WHATSAPP_NUMBER,
         PACKAGE_DATA.waTemplate,
         LIVE_DEMO_URL,

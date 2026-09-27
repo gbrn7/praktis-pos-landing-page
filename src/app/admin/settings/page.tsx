@@ -12,17 +12,18 @@ export default async function AdminSettingsPage() {
 
   const current = db.select().from(siteSettings).limit(1).get();
 
-  const settingsData = current || {
-    heroPill: 'Mesin Kasir Praktis POS • Paket Siap Pakai',
-    heroHeadline: 'Solusi Mesin Kasir Lengkap: Buka Dus, Colok, Langsung Siap Jualan.',
-    heroSubtitle: 'Bersama Praktis POS, kelola transaksi kasir secepat kilat, pantau stok akurat, dan otomatis pisahkan uang modal kulakan vs laba bersih toko Anda. 100% tanpa biaya langganan bulanan seumur hidup.',
-    waNumber: '6281234567890',
-    waTemplate: 'Halo tim Praktis POS, saya tertarik dengan Paket Komplit Mesin Kasir Siap Pakai. Mohon informasi ketersediaan paket dan cara pemesanannya. Terima kasih!',
-    liveDemoUrl: 'http://localhost:8000',
-    demoBannerTitle: 'Ingin Mencoba Langsung Praktis POS?',
-    demoBannerDesc: 'Buka aplikasi demo langsung di browser Anda sekarang. Rasakan sendiri cepatnya transaksi, kemudahan scan barcode, dan kejelasan laporan kas modal vs profit sebelum memesan paket hardware.',
-    ctaBannerTitle: 'Miliki Paket Mesin Kasir Praktis POS Hari Ini',
-    ctaBannerDesc: 'Konsultasikan jenis usaha dan kebutuhan toko Anda dengan tim kami. Perangkat kami rakit dan uji sebelum dikirim langsung ke alamat Anda.',
+  const settingsData = {
+    heroPill: current?.heroPill || 'Mesin Kasir Praktis POS • Paket Siap Pakai',
+    heroHeadline: current?.heroHeadline || 'Solusi Mesin Kasir Lengkap: Buka Dus, Colok, Langsung Siap Jualan.',
+    heroSubtitle: current?.heroSubtitle || 'Bersama Praktis POS, kelola transaksi kasir secepat kilat, pantau stok akurat, dan otomatis pisahkan uang modal kulakan vs laba bersih toko Anda. 100% tanpa biaya langganan bulanan seumur hidup.',
+    heroMockupImage: current?.heroMockupImage || '/mockup-dashboard.png',
+    waNumber: current?.waNumber || '6281234567890',
+    waTemplate: current?.waTemplate || 'Halo tim Praktis POS, saya tertarik dengan Paket Komplit Mesin Kasir Siap Pakai. Mohon informasi ketersediaan paket dan cara pemesanannya. Terima kasih!',
+    liveDemoUrl: current?.liveDemoUrl || 'http://localhost:8000',
+    demoBannerTitle: current?.demoBannerTitle || 'Ingin Mencoba Langsung Praktis POS?',
+    demoBannerDesc: current?.demoBannerDesc || 'Buka aplikasi demo langsung di browser Anda sekarang. Rasakan sendiri cepatnya transaksi, kemudahan scan barcode, dan kejelasan laporan kas modal vs profit sebelum memesan paket hardware.',
+    ctaBannerTitle: current?.ctaBannerTitle || 'Miliki Paket Mesin Kasir Praktis POS Hari Ini',
+    ctaBannerDesc: current?.ctaBannerDesc || 'Konsultasikan jenis usaha dan kebutuhan toko Anda dengan tim kami. Perangkat kami rakit dan uji sebelum dikirim langsung ke alamat Anda.',
   };
 
   return (
@@ -38,7 +39,7 @@ export default async function AdminSettingsPage() {
             Pengaturan Teks & Kontak Website
           </h1>
           <p className="text-sm text-[#525252] dark:text-[#A1A1AA] mt-1">
-            Ubah teks headline penawaran, nomor WhatsApp customer service, template pesan chat, dan URL live demo aplikasi.
+            Ubah teks headline penawaran, gambar mockup dashboard kasir, nomor WhatsApp CS, template pesan chat, dan URL live demo aplikasi.
           </p>
         </div>
       </div>

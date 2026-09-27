@@ -10,6 +10,7 @@ export async function updateSiteSettings(data: {
   heroPill: string;
   heroHeadline: string;
   heroSubtitle: string;
+  heroMockupImage?: string | null;
   waNumber: string;
   waTemplate: string;
   liveDemoUrl: string;
