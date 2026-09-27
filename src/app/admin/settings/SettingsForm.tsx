@@ -242,33 +242,46 @@ export const SettingsForm: React.FC<Props> = ({ initialSettings }) => {
           </div>
 
           {/* Interactive Preview in Mac Window Style */}
-          <div className="space-y-1.5 pt-2">
-            <label className="text-xs font-semibold text-[#525252] dark:text-[#A1A1AA]">
-              Pratinjau Jendela Mac:
-            </label>
-            <div className="rounded-xl border border-[#E7E7EE] dark:border-[#232326] overflow-hidden bg-white dark:bg-[#141416] shadow-sm max-w-xl">
-              {/* Mini Mac Window Header */}
-              <div className="bg-[#F8F9FA] dark:bg-[#18181B] px-3 py-2 border-b border-[#E7E7EE] dark:border-[#232326] flex items-center justify-between">
-                <div className="flex items-center gap-1.5">
-                  <div className="w-2.5 h-2.5 rounded-full bg-[#FF5F56]" />
-                  <div className="w-2.5 h-2.5 rounded-full bg-[#FFBD2E]" />
-                  <div className="w-2.5 h-2.5 rounded-full bg-[#27C93F]" />
-                  <span className="ml-1.5 text-[10px] font-mono text-[#71717A]">praktispos.app/dashboard</span>
+          <div className="space-y-2 pt-2">
+            <div className="flex items-center justify-between">
+              <label className="text-xs font-bold text-[#000000] dark:text-[#FFFFFF] flex items-center gap-1.5">
+                <Layout className="w-3.5 h-3.5 text-[#E0511F]" />
+                <span>Pratinjau Jendela Mac:</span>
+              </label>
+              <span className="text-[11px] text-[#71717A]">
+                Tampilan persis seperti yang dilihat pengunjung di Hero landing page
+              </span>
+            </div>
+
+            <div className="w-full rounded-2xl border border-[#E7E7EE] dark:border-[#232326] overflow-hidden bg-white dark:bg-[#141416] shadow-lg transition-all">
+              {/* Full-size Mac Window Header */}
+              <div className="bg-[#F8F9FA] dark:bg-[#18181B] px-4 py-3 border-b border-[#E7E7EE] dark:border-[#232326] flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 rounded-full bg-[#FF5F56]" />
+                  <div className="w-3 h-3 rounded-full bg-[#FFBD2E]" />
+                  <div className="w-3 h-3 rounded-full bg-[#27C93F]" />
+                  <span className="ml-2 text-xs font-medium text-[#525252] dark:text-[#A1A1AA] hidden sm:inline">
+                    praktispos.app/dashboard
+                  </span>
                 </div>
-                <span className="text-[10px] font-medium text-[#71717A]">Sistem Kasir Aktif</span>
+                <div className="flex items-center gap-2 text-xs font-semibold text-[#000000] dark:text-[#FFFFFF]">
+                  <span className="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                  <span>Sistem Kasir Praktis POS Aktif</span>
+                </div>
               </div>
-              {/* Image Preview */}
-              <div className="relative bg-zinc-50 dark:bg-zinc-900 flex items-center justify-center min-h-[120px]">
+
+              {/* Full-width Image Preview */}
+              <div className="relative w-full bg-white dark:bg-[#141416] flex items-center justify-center">
                 {form.heroMockupImage ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
                     src={form.heroMockupImage}
                     alt="Pratinjau Mockup"
-                    className="w-full h-auto max-h-48 object-contain block"
+                    className="w-full h-auto block object-cover"
                   />
                 ) : (
-                  <div className="p-6 text-center text-xs text-zinc-400">
-                    <ImageIcon className="w-8 h-8 mx-auto mb-1 opacity-40" />
+                  <div className="p-12 text-center text-sm text-zinc-400">
+                    <ImageIcon className="w-10 h-10 mx-auto mb-2 opacity-40" />
                     Belum ada gambar yang dipilih
                   </div>
                 )}
