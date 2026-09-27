@@ -63,6 +63,11 @@ export default async function AdminSettingsPage() {
     hardwareSubtitle:
       current?.hardwareSubtitle ||
       'Semua perangkat yang Anda butuhkan untuk operasional toko sudah tersedia dalam satu paket. Buka dus, colok kabel, dan langsung siap transaksi.',
+    featuresPill: current?.featuresPill || 'Fitur Software Unggulan',
+    featuresHeadline: current?.featuresHeadline || 'Lebih Dari Sekadar Kasir Biasa',
+    featuresSubtitle:
+      current?.featuresSubtitle ||
+      'Dibangun dengan teknologi modern yang ringan, cepat, dan dibekali alat keuangan unik untuk mengamankan keuntungan toko Anda.',
     waNumber: current?.waNumber || '6281234567890',
     waTemplate: current?.waTemplate || 'Halo tim Praktis POS, saya tertarik dengan Paket Komplit Mesin Kasir Siap Pakai. Mohon informasi ketersediaan paket dan cara pemesanannya. Terima kasih!',
     liveDemoUrl: current?.liveDemoUrl || 'http://localhost:8000',

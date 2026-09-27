@@ -80,6 +80,9 @@ interface SiteSettingsData {
   hardwarePill?: string;
   hardwareHeadline?: string;
   hardwareSubtitle?: string;
+  featuresPill?: string;
+  featuresHeadline?: string;
+  featuresSubtitle?: string;
   waNumber: string;
   waTemplate: string;
   liveDemoUrl: string;
@@ -109,6 +112,11 @@ export const SettingsForm: React.FC<Props> = ({ initialSettings }) => {
     hardwareSubtitle:
       initialSettings.hardwareSubtitle ||
       'Semua perangkat yang Anda butuhkan untuk operasional toko sudah tersedia dalam satu paket. Buka dus, colok kabel, dan langsung siap transaksi.',
+    featuresPill: initialSettings.featuresPill || 'Fitur Software Unggulan',
+    featuresHeadline: initialSettings.featuresHeadline || 'Lebih Dari Sekadar Kasir Biasa',
+    featuresSubtitle:
+      initialSettings.featuresSubtitle ||
+      'Dibangun dengan teknologi modern yang ringan, cepat, dan dibekali alat keuangan unik untuk mengamankan keuntungan toko Anda.',
   });
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -117,7 +125,34 @@ export const SettingsForm: React.FC<Props> = ({ initialSettings }) => {
   const [savingMetrics, setSavingMetrics] = useState(false);
   const [savingIndustries, setSavingIndustries] = useState(false);
   const [savingHardware, setSavingHardware] = useState(false);
+  const [savingFeatures, setSavingFeatures] = useState(false);
   const [feedback, setFeedback] = useState<{ msg: string; type: 'success' | 'error' } | null>(null);
+
+  // --- Features Header Handlers ---
+  const handleResetFeatures = () => {
+    setForm({
+      ...form,
+      featuresPill: 'Fitur Software Unggulan',
+      featuresHeadline: 'Lebih Dari Sekadar Kasir Biasa',
+      featuresSubtitle:
+        'Dibangun dengan teknologi modern yang ringan, cepat, dan dibekali alat keuangan unik untuk mengamankan keuntungan toko Anda.',
+    });
+  };
+
+  const handleSaveFeaturesOnly = async () => {
+    setSavingFeatures(true);
+    setFeedback(null);
+    const res = await updateSiteSettings(form);
+    if (res.success) {
+      setFeedback({
+        msg: 'Teks judul & deskripsi Fitur Software Unggulan berhasil disimpan dan langsung aktif di landing page!',
+        type: 'success',
+      });
+    } else {
+      setFeedback({ msg: res.error || 'Gagal menyimpan header fitur software', type: 'error' });
+    }
+    setSavingFeatures(false);
+  };
 
   // --- Hardware Header Handlers ---
   const handleResetHardware = () => {
@@ -1025,6 +1060,106 @@ export const SettingsForm: React.FC<Props> = ({ initialSettings }) => {
           >
             <Save className="w-4 h-4" />
             <span>{savingHardware ? 'Menyimpan...' : 'Simpan Header Hardware'}</span>
+          </Button>
+        </CardFooter>
+      </Card>
+
+      {/* Features Section Header Settings */}
+      <Card>
+        <CardHeader>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="flex items-center gap-2">
+              <Sparkles className="w-5 h-5 text-[#E0511F]" />
+              <div>
+                <CardTitle>Header Fitur Software Unggulan</CardTitle>
+                <CardDescription>
+                  Atur teks lencana, judul headline, dan deskripsi pengantar pada section fitur software kasir di landing page
+                </CardDescription>
+              </div>
+            </div>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={handleResetFeatures}
+              className="text-xs h-8"
+              title="Kembalikan teks header fitur software ke bawaan"
+            >
+              <RotateCcw className="w-3 h-3 mr-1" />
+              <span>Reset Default</span>
+            </Button>
+          </div>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="space-y-1.5 sm:col-span-1">
+              <label className="text-xs font-bold text-[#000000] dark:text-[#FFFFFF]">
+                Badge Pill / Label Atas
+              </label>
+              <Input
+                value={form.featuresPill || ''}
+                onChange={(e) => setForm({ ...form, featuresPill: e.target.value })}
+                placeholder="Contoh: Fitur Software Unggulan"
+                required
+              />
+            </div>
+
+            <div className="space-y-1.5 sm:col-span-2">
+              <label className="text-xs font-bold text-[#000000] dark:text-[#FFFFFF]">
+                Judul Utama Headline
+              </label>
+              <Input
+                value={form.featuresHeadline || ''}
+                onChange={(e) => setForm({ ...form, featuresHeadline: e.target.value })}
+                placeholder="Contoh: Lebih Dari Sekadar Kasir Biasa"
+                required
+              />
+            </div>
+          </div>
+
+          <div className="space-y-1.5">
+            <label className="text-xs font-bold text-[#000000] dark:text-[#FFFFFF]">
+              Deskripsi Subtitle
+            </label>
+            <Textarea
+              rows={2}
+              value={form.featuresSubtitle || ''}
+              onChange={(e) => setForm({ ...form, featuresSubtitle: e.target.value })}
+              placeholder="Contoh: Dibangun dengan teknologi modern yang ringan, cepat..."
+              required
+            />
+          </div>
+
+          {/* Live Visual Preview */}
+          <div className="mt-4 p-6 rounded-xl border border-[#E7E7EE] dark:border-[#232326] bg-[#FFFFFF] dark:bg-[#111113] text-center">
+            <div className="text-[10px] font-bold text-[#71717A] uppercase tracking-wider mb-3 text-left">
+              Pratinjau Tampilan Header di Landing Page:
+            </div>
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FFF0EB] dark:bg-[#2B150B] text-[#E0511F] text-xs font-bold uppercase tracking-wider mb-3">
+              {form.featuresPill || 'Fitur Software Unggulan'}
+            </div>
+            <h3 className="text-2xl sm:text-3xl font-extrabold text-[#000000] dark:text-[#FFFFFF] tracking-tight">
+              {form.featuresHeadline || 'Lebih Dari Sekadar Kasir Biasa'}
+            </h3>
+            <p className="mt-2 text-sm text-[#525252] dark:text-[#A1A1AA] max-w-2xl mx-auto">
+              {form.featuresSubtitle ||
+                'Dibangun dengan teknologi modern yang ringan, cepat, dan dibekali alat keuangan unik untuk mengamankan keuntungan toko Anda.'}
+            </p>
+          </div>
+        </CardContent>
+
+        <CardFooter className="pt-3 border-t border-[#E7E7EE] dark:border-[#232326] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <span className="text-xs text-[#525252] dark:text-[#A1A1AA]">
+            {savingFeatures ? 'Sedang menyimpan header fitur...' : 'Simpan teks judul dan deskripsi Fitur Software Unggulan di atas.'}
+          </span>
+          <Button
+            type="button"
+            onClick={handleSaveFeaturesOnly}
+            disabled={savingFeatures || loading}
+            className="font-bold gap-2 bg-[#E0511F] hover:bg-[#C94213] text-white shrink-0"
+          >
+            <Save className="w-4 h-4" />
+            <span>{savingFeatures ? 'Menyimpan...' : 'Simpan Header Fitur Software'}</span>
           </Button>
         </CardFooter>
       </Card>

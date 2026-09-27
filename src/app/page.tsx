@@ -31,7 +31,7 @@ export default async function Home() {
         {visibility.hardware && (
           <HardwareShowcase items={hardwareList} bonuses={bonuses} settings={settings} />
         )}
-        {visibility.features && <FeatureGrid features={featuresList} />}
+        {visibility.features && <FeatureGrid features={featuresList} settings={settings} />}
         {visibility.demo_banner && <DemoBanner settings={settings} />}
         {visibility.faq && <Faq faqs={faqsList} />}
         {visibility.cta_banner && <CtaBanner settings={settings} />}

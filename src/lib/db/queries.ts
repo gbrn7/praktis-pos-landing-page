@@ -28,6 +28,9 @@ export interface SiteSettingsPublic {
   hardwarePill: string;
   hardwareHeadline: string;
   hardwareSubtitle: string;
+  featuresPill: string;
+  featuresHeadline: string;
+  featuresSubtitle: string;
   waNumber: string;
   waTemplate: string;
   liveDemoUrl: string;
@@ -119,6 +122,11 @@ export async function getLandingPageData(): Promise<LandingPageData> {
           hardwareSubtitle:
             settingsRecord.hardwareSubtitle ||
             'Semua perangkat yang Anda butuhkan untuk operasional toko sudah tersedia dalam satu paket. Buka dus, colok kabel, dan langsung siap transaksi.',
+          featuresPill: settingsRecord.featuresPill || 'Fitur Software Unggulan',
+          featuresHeadline: settingsRecord.featuresHeadline || 'Lebih Dari Sekadar Kasir Biasa',
+          featuresSubtitle:
+            settingsRecord.featuresSubtitle ||
+            'Dibangun dengan teknologi modern yang ringan, cepat, dan dibekali alat keuangan unik untuk mengamankan keuntungan toko Anda.',
           waNumber: settingsRecord.waNumber,
           waTemplate: settingsRecord.waTemplate,
           liveDemoUrl: settingsRecord.liveDemoUrl,
@@ -141,6 +149,10 @@ export async function getLandingPageData(): Promise<LandingPageData> {
           hardwareHeadline: '1 Paket Lengkap Mesin Kasir Praktis POS',
           hardwareSubtitle:
             'Semua perangkat yang Anda butuhkan untuk operasional toko sudah tersedia dalam satu paket. Buka dus, colok kabel, dan langsung siap transaksi.',
+          featuresPill: 'Fitur Software Unggulan',
+          featuresHeadline: 'Lebih Dari Sekadar Kasir Biasa',
+          featuresSubtitle:
+            'Dibangun dengan teknologi modern yang ringan, cepat, dan dibekali alat keuangan unik untuk mengamankan keuntungan toko Anda.',
           waNumber: WHATSAPP_NUMBER,
           waTemplate: PACKAGE_DATA.waTemplate,
           liveDemoUrl: LIVE_DEMO_URL,
@@ -240,6 +252,10 @@ export async function getLandingPageData(): Promise<LandingPageData> {
         hardwareHeadline: '1 Paket Lengkap Mesin Kasir Praktis POS',
         hardwareSubtitle:
           'Semua perangkat yang Anda butuhkan untuk operasional toko sudah tersedia dalam satu paket. Buka dus, colok kabel, dan langsung siap transaksi.',
+        featuresPill: 'Fitur Software Unggulan',
+        featuresHeadline: 'Lebih Dari Sekadar Kasir Biasa',
+        featuresSubtitle:
+          'Dibangun dengan teknologi modern yang ringan, cepat, dan dibekali alat keuangan unik untuk mengamankan keuntungan toko Anda.',
         waNumber: WHATSAPP_NUMBER,
         waTemplate: PACKAGE_DATA.waTemplate,
         liveDemoUrl: LIVE_DEMO_URL,

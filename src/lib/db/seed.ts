@@ -46,6 +46,9 @@ export function ensureDatabaseSeeded() {
       hardware_pill TEXT DEFAULT 'What''s In The Box',
       hardware_headline TEXT DEFAULT '1 Paket Lengkap Mesin Kasir Praktis POS',
       hardware_subtitle TEXT DEFAULT 'Semua perangkat yang Anda butuhkan untuk operasional toko sudah tersedia dalam satu paket. Buka dus, colok kabel, dan langsung siap transaksi.',
+      features_pill TEXT DEFAULT 'Fitur Software Unggulan',
+      features_headline TEXT DEFAULT 'Lebih Dari Sekadar Kasir Biasa',
+      features_subtitle TEXT DEFAULT 'Dibangun dengan teknologi modern yang ringan, cepat, dan dibekali alat keuangan unik untuk mengamankan keuntungan toko Anda.',
       wa_number TEXT NOT NULL DEFAULT '6281234567890',
       wa_template TEXT NOT NULL,
       live_demo_url TEXT NOT NULL,
@@ -152,6 +155,15 @@ export function ensureDatabaseSeeded() {
     if (siteCols.length > 0 && !siteCols.some((col) => col.name === 'hardware_subtitle')) {
       sqlite.exec("ALTER TABLE site_settings ADD COLUMN hardware_subtitle TEXT;");
     }
+    if (siteCols.length > 0 && !siteCols.some((col) => col.name === 'features_pill')) {
+      sqlite.exec("ALTER TABLE site_settings ADD COLUMN features_pill TEXT;");
+    }
+    if (siteCols.length > 0 && !siteCols.some((col) => col.name === 'features_headline')) {
+      sqlite.exec("ALTER TABLE site_settings ADD COLUMN features_headline TEXT;");
+    }
+    if (siteCols.length > 0 && !siteCols.some((col) => col.name === 'features_subtitle')) {
+      sqlite.exec("ALTER TABLE site_settings ADD COLUMN features_subtitle TEXT;");
+    }
   } catch (err) {
     console.error('Migration error on site_settings:', err);
   }
@@ -161,9 +173,9 @@ export function ensureDatabaseSeeded() {
     sqlite
       .prepare(`
         INSERT INTO site_settings (
-          hero_pill, hero_headline, hero_subtitle, hero_mockup_image, hero_highlights, social_proof_metrics, target_industries, target_industries_title, hardware_pill, hardware_headline, hardware_subtitle, wa_number, wa_template, live_demo_url,
+          hero_pill, hero_headline, hero_subtitle, hero_mockup_image, hero_highlights, social_proof_metrics, target_industries, target_industries_title, hardware_pill, hardware_headline, hardware_subtitle, features_pill, features_headline, features_subtitle, wa_number, wa_template, live_demo_url,
           demo_banner_title, demo_banner_desc, cta_banner_title, cta_banner_desc
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       `)
       .run(
         'Mesin Kasir Praktis POS • Paket Siap Pakai',
@@ -187,6 +199,9 @@ export function ensureDatabaseSeeded() {
         "What's In The Box",
         '1 Paket Lengkap Mesin Kasir Praktis POS',
         'Semua perangkat yang Anda butuhkan untuk operasional toko sudah tersedia dalam satu paket. Buka dus, colok kabel, dan langsung siap transaksi.',
+        'Fitur Software Unggulan',
+        'Lebih Dari Sekadar Kasir Biasa',
+        'Dibangun dengan teknologi modern yang ringan, cepat, dan dibekali alat keuangan unik untuk mengamankan keuntungan toko Anda.',
         WHATSAPP_NUMBER,
         PACKAGE_DATA.waTemplate,
         LIVE_DEMO_URL,

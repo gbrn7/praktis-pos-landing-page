@@ -3,7 +3,8 @@ import { db } from '@/lib/db';
 import { features } from '@/lib/db/schema';
 import { ensureDatabaseSeeded } from '@/lib/db/seed';
 import { FeaturesManager } from './FeaturesManager';
-import { Sparkles } from 'lucide-react';
+import { Sparkles, Sliders } from 'lucide-react';
+import Link from 'next/link';
 
 export const dynamic = 'force-dynamic';
 
@@ -28,6 +29,13 @@ export default async function AdminFeaturesPage() {
             Kelola kartu fitur software kasir, tagline, deskripsi mendalam, serta poin-poin manfaat bagi pemilik toko.
           </p>
         </div>
+        <Link
+          href="/admin/settings"
+          className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold border border-[#E7E7EE] dark:border-[#232326] bg-[#FFFFFF] dark:bg-[#18181B] hover:bg-[#F8F9FA] dark:hover:bg-[#202024] text-[#000000] dark:text-[#FFFFFF] transition-colors shrink-0"
+        >
+          <Sliders className="w-3.5 h-3.5 text-[#E0511F]" />
+          <span>Edit Teks Fitur Software</span>
+        </Link>
       </div>
 
       <FeaturesManager initialFeatures={allFeatures} />

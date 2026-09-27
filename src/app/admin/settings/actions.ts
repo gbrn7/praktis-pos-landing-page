@@ -18,6 +18,9 @@ export async function updateSiteSettings(data: {
   hardwarePill?: string;
   hardwareHeadline?: string;
   hardwareSubtitle?: string;
+  featuresPill?: string;
+  featuresHeadline?: string;
+  featuresSubtitle?: string;
   waNumber: string;
   waTemplate: string;
   liveDemoUrl: string;
@@ -66,6 +69,7 @@ export async function updateSiteSettings(data: {
     safeRevalidatePath('/admin');
     safeRevalidatePath('/admin/settings');
     safeRevalidatePath('/admin/hardware');
+    safeRevalidatePath('/admin/features');
 
     return { success: true };
   } catch (error) {
