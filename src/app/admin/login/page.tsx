@@ -116,11 +116,6 @@ export default function AdminLoginPage() {
                 />
               </div>
 
-              <div className="pt-1 text-center">
-                <p className="text-[11px] text-[#71717A]">
-                  Kredensial bawaan: <code className="font-mono bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">admin</code> / <code className="font-mono bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">admin123</code>
-                </p>
-              </div>
             </CardContent>
 
             <CardFooter className="pt-2">
