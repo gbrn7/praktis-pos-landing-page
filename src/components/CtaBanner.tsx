@@ -2,6 +2,7 @@ import React from 'react';
 import { MessageCircle, Check, ArrowRight } from 'lucide-react';
 import { PACKAGE_DATA, WHATSAPP_NUMBER } from '../data/package-data';
 import { SiteSettingsPublic } from '@/lib/db/queries';
+import { TabbiedOrnament } from './ui/TabbiedOrnament';
 
 interface CtaBannerProps {
   settings?: SiteSettingsPublic;
@@ -21,8 +22,21 @@ export const CtaBanner: React.FC<CtaBannerProps> = ({ settings }) => {
     <section className="py-16 sm:py-20 bg-[#FDFDFD] dark:bg-[#0B0B0C] border-t border-[#E7E7EE] dark:border-[#232326] transition-colors duration-200">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="relative p-8 sm:p-14 rounded-3xl bg-[#FFFFFF] dark:bg-[#141416] border-2 border-[#E7E7EE] dark:border-[#232326] shadow-lg text-center overflow-hidden">
-          {/* Subtle background accent dot */}
-          <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 rounded-full bg-[#FFF0EB] dark:bg-[#2B150B]/60 -z-0 opacity-70" />
+          {/* Tabbied generative ornaments for depth and modern geometric flair */}
+          <TabbiedOrnament
+            preset="radius"
+            seed="cta-growth"
+            palette={['transparent', '#E0511F', '#F97316', '#FDBA74']}
+            className="absolute -top-12 -right-12 w-80 h-80 opacity-20 dark:opacity-25 pointer-events-none -z-0"
+            fit="cover"
+          />
+          <TabbiedOrnament
+            preset="lattice"
+            seed="cta-lattice"
+            palette={['transparent', '#E0511F', '#FB923C']}
+            className="absolute -bottom-16 -left-16 w-72 h-72 opacity-15 dark:opacity-20 pointer-events-none -z-0"
+            fit="cover"
+          />
 
           <div className="relative z-10 max-w-2xl mx-auto">
             <span className="inline-block px-3 py-1 rounded-full bg-[#FFF0EB] dark:bg-[#2B150B] text-[#E0511F] text-xs font-bold uppercase tracking-wider mb-4">

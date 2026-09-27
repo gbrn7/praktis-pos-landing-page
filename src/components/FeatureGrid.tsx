@@ -2,6 +2,7 @@ import React from 'react';
 import { ShoppingCart, Wallet, Barcode, TrendingUp, Check } from 'lucide-react';
 import { CORE_FEATURES } from '../data/features';
 import { FeatureItem } from '../types';
+import { TabbiedOrnament } from './ui/TabbiedOrnament';
 
 interface FeatureGridProps {
   features?: FeatureItem[];
@@ -21,7 +22,15 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({ features }) => {
   };
 
   return (
-    <section id="fitur" className="py-16 sm:py-24 bg-[#FFFFFF] dark:bg-[#111113] border-t border-[#E7E7EE] dark:border-[#232326] transition-colors duration-200">
+    <section id="fitur" className="relative py-16 sm:py-24 bg-[#FFFFFF] dark:bg-[#111113] border-t border-[#E7E7EE] dark:border-[#232326] transition-colors duration-200 overflow-hidden">
+      {/* Tabbied generative dotmatrix ornament (accentuating digital POS tech) */}
+      <TabbiedOrnament
+        preset="dotmatrix"
+        seed="pos-grid-accent"
+        palette={['transparent', '#E0511F', '#F97316']}
+        className="absolute -right-20 top-1/2 -translate-y-1/2 w-80 h-80 opacity-10 dark:opacity-15 pointer-events-none -z-0"
+        fit="cover"
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">

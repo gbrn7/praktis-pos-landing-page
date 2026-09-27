@@ -2,6 +2,7 @@ import React from 'react';
 import { MonitorPlay, ArrowRight, ShieldCheck, Zap } from 'lucide-react';
 import { LIVE_DEMO_URL } from '../data/package-data';
 import { SiteSettingsPublic } from '@/lib/db/queries';
+import { TabbiedOrnament } from './ui/TabbiedOrnament';
 
 interface DemoBannerProps {
   settings?: SiteSettingsPublic;
@@ -15,8 +16,16 @@ export const DemoBanner: React.FC<DemoBannerProps> = ({ settings }) => {
   return (
     <section className="py-14 bg-[#FDFDFD] dark:bg-[#0B0B0C] transition-colors duration-200">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="p-8 sm:p-12 rounded-3xl bg-[#FFFFFF] dark:bg-[#141416] border border-[#E7E7EE] dark:border-[#232326] shadow-sm flex flex-col md:flex-row items-center justify-between gap-8">
-          <div className="max-w-xl text-center md:text-left">
+        <div className="relative overflow-hidden p-8 sm:p-12 rounded-3xl bg-[#FFFFFF] dark:bg-[#141416] border border-[#E7E7EE] dark:border-[#232326] shadow-sm flex flex-col md:flex-row items-center justify-between gap-8">
+          {/* Tabbied generative isometric blocks ornament in card background */}
+          <TabbiedOrnament
+            preset="blocks"
+            seed="demo-banner-pos"
+            palette={['transparent', '#E0511F', '#F97316', '#FDBA74']}
+            className="absolute -right-12 -bottom-12 w-64 h-64 opacity-15 dark:opacity-20 pointer-events-none -z-0"
+            fit="cover"
+          />
+          <div className="max-w-xl text-center md:text-left relative z-10">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FFF0EB] dark:bg-[#2B150B] text-[#E0511F] text-xs font-bold mb-3">
               <Zap className="w-3.5 h-3.5" />
               <span>Tanpa Perlu Install Apapun</span>
