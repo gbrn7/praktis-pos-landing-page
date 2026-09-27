@@ -79,9 +79,6 @@ export const AdminSidebar: React.FC = () => {
                 className="h-8 w-auto object-contain hidden dark:block"
                 priority
               />
-              <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-[#FFF0EB] dark:bg-[#2B150B] text-[#E0511F] tracking-wide uppercase shrink-0">
-                CMS
-              </span>
             </Link>
           </div>
         ) : (
