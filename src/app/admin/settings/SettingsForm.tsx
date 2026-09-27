@@ -42,13 +42,35 @@ export const SettingsForm: React.FC<Props> = ({ initialSettings }) => {
   const [form, setForm] = useState<SiteSettingsData>(initialSettings);
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [savingMockup, setSavingMockup] = useState(false);
   const [feedback, setFeedback] = useState<{ msg: string; type: 'success' | 'error' } | null>(null);
+
+  const handleSaveMockup = async (customUrl?: string) => {
+    const targetUrl = customUrl !== undefined ? customUrl : (form.heroMockupImage || '/mockup-dashboard.png');
+    setSavingMockup(true);
+    setFeedback(null);
+
+    const updated = { ...form, heroMockupImage: targetUrl };
+    setForm(updated);
+
+    const res = await updateSiteSettings(updated);
+    if (res.success) {
+      setFeedback({
+        msg: 'Gambar mockup berhasil disimpan dan langsung aktif di landing page!',
+        type: 'success',
+      });
+    } else {
+      setFeedback({ msg: res.error || 'Gagal menyimpan gambar mockup', type: 'error' });
+    }
+    setSavingMockup(false);
+  };
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
     setUploading(true);
+    setFeedback(null);
     const body = new FormData();
     body.append('file', file);
 
@@ -60,7 +82,15 @@ export const SettingsForm: React.FC<Props> = ({ initialSettings }) => {
       const data = await res.json();
       if (res.ok && data.url) {
         setForm((prev) => ({ ...prev, heroMockupImage: data.url }));
-        setFeedback({ msg: 'Foto mockup berhasil diunggah ke server!', type: 'success' });
+
+        // Simpan langsung ke database agar pengguna tidak perlu tekan Enter
+        const updated = { ...form, heroMockupImage: data.url };
+        const saveRes = await updateSiteSettings(updated);
+        if (saveRes.success) {
+          setFeedback({ msg: 'Foto mockup berhasil diunggah dan langsung tersimpan ke website!', type: 'success' });
+        } else {
+          setFeedback({ msg: 'Foto terunggah tapi gagal disimpan otomatis. Silakan klik tombol Simpan Gambar Mockup.', type: 'error' });
+        }
       } else {
         setFeedback({ msg: data.error || 'Gagal mengunggah foto', type: 'error' });
       }
@@ -68,7 +98,12 @@ export const SettingsForm: React.FC<Props> = ({ initialSettings }) => {
       setFeedback({ msg: 'Terjadi kesalahan saat upload gambar', type: 'error' });
     } finally {
       setUploading(false);
+      e.target.value = '';
     }
+  };
+
+  const handleResetDefault = async () => {
+    await handleSaveMockup('/mockup-dashboard.png');
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -78,7 +113,7 @@ export const SettingsForm: React.FC<Props> = ({ initialSettings }) => {
 
     const res = await updateSiteSettings(form);
     if (res.success) {
-      setFeedback({ msg: 'Pengaturan website berhasil disimpan dan langsung aktif di landing page!', type: 'success' });
+      setFeedback({ msg: 'Semua pengaturan website berhasil disimpan dan langsung aktif di landing page!', type: 'success' });
     } else {
       setFeedback({ msg: res.error || 'Gagal menyimpan pengaturan', type: 'error' });
     }
@@ -168,14 +203,14 @@ export const SettingsForm: React.FC<Props> = ({ initialSettings }) => {
             <label className="text-xs font-bold text-[#000000] dark:text-[#FFFFFF]">
               URL Gambar atau Upload File Lokal
             </label>
-            <div className="flex flex-col sm:flex-row gap-3">
+            <div className="flex flex-col sm:flex-row gap-2.5">
               <Input
                 placeholder="/mockup-dashboard.png atau https://..."
                 value={form.heroMockupImage || ''}
                 onChange={(e) => setForm({ ...form, heroMockupImage: e.target.value })}
                 className="flex-1"
               />
-              <div className="flex gap-2">
+              <div className="flex flex-wrap items-center gap-2">
                 <label className="cursor-pointer inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-[#EDF0F4] dark:bg-[#222226] text-[#080808] dark:text-[#FFFFFF] hover:bg-[#E2E6EA] dark:hover:bg-[#2C2C32] transition-colors border border-[#E7E7EE] dark:border-[#232326]">
                   <Upload className="w-3.5 h-3.5" />
                   <span>{uploading ? 'Mengunggah...' : 'Upload Gambar'}</span>
@@ -183,7 +218,7 @@ export const SettingsForm: React.FC<Props> = ({ initialSettings }) => {
                     type="file"
                     accept="image/*"
                     onChange={handleFileUpload}
-                    disabled={uploading}
+                    disabled={uploading || savingMockup}
                     className="hidden"
                   />
                 </label>
@@ -191,8 +226,9 @@ export const SettingsForm: React.FC<Props> = ({ initialSettings }) => {
                   type="button"
                   variant="outline"
                   size="sm"
-                  onClick={() => setForm({ ...form, heroMockupImage: '/mockup-dashboard.png' })}
-                  title="Kembalikan ke gambar bawaan"
+                  onClick={handleResetDefault}
+                  disabled={savingMockup || uploading}
+                  title="Kembalikan ke gambar bawaan dan simpan langsung"
                   className="text-xs"
                 >
                   <RotateCcw className="w-3.5 h-3.5 mr-1" />
@@ -240,6 +276,25 @@ export const SettingsForm: React.FC<Props> = ({ initialSettings }) => {
             </div>
           </div>
         </CardContent>
+
+        <CardFooter className="pt-3 border-t border-[#E7E7EE] dark:border-[#232326] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <span className="text-xs text-[#525252] dark:text-[#A1A1AA]">
+            {uploading
+              ? 'Sedang memproses upload...'
+              : savingMockup
+              ? 'Sedang menyimpan ke database...'
+              : 'Klik tombol simpan jika Anda mengetik URL gambar secara manual.'}
+          </span>
+          <Button
+            type="button"
+            onClick={() => handleSaveMockup()}
+            disabled={savingMockup || uploading}
+            className="font-bold gap-2 bg-[#E0511F] hover:bg-[#C94213] text-white shrink-0"
+          >
+            <Save className="w-4 h-4" />
+            <span>{savingMockup ? 'Menyimpan...' : 'Simpan Gambar Mockup'}</span>
+          </Button>
+        </CardFooter>
       </Card>
 
       {/* WhatsApp & Demo Link */}
