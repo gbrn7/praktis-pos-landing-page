@@ -2,10 +2,22 @@ import React from 'react';
 import { MessageCircle, MonitorPlay, Sparkles, Check, ArrowRight } from 'lucide-react';
 import { PACKAGE_DATA, WHATSAPP_NUMBER, LIVE_DEMO_URL } from '../data/package-data';
 import { MockupPreview } from './MockupPreview';
+import { SiteSettingsPublic } from '@/lib/db/queries';
 
-export const Hero: React.FC = () => {
+interface HeroProps {
+  settings?: SiteSettingsPublic;
+}
+
+export const Hero: React.FC<HeroProps> = ({ settings }) => {
+  const waNum = settings?.waNumber || WHATSAPP_NUMBER;
+  const waMsg = settings?.waTemplate || PACKAGE_DATA.waTemplate;
+  const demoUrl = settings?.liveDemoUrl || LIVE_DEMO_URL;
+  const pillText = settings?.heroPill || 'Mesin Kasir Praktis POS • Paket Siap Pakai';
+  const headline = settings?.heroHeadline || 'Solusi Mesin Kasir Lengkap: Buka Dus, Colok, Langsung Siap Jualan.';
+  const subtitle = settings?.heroSubtitle || 'Bersama Praktis POS, kelola transaksi kasir secepat kilat, pantau stok akurat, dan otomatis pisahkan uang modal kulakan vs laba bersih toko Anda. 100% tanpa biaya langganan bulanan seumur hidup.';
+
   const getWaUrl = () => {
-    return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(PACKAGE_DATA.waTemplate)}`;
+    return `https://wa.me/${waNum}?text=${encodeURIComponent(waMsg)}`;
   };
 
   return (
@@ -15,18 +27,17 @@ export const Hero: React.FC = () => {
           {/* Pill Badge */}
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FFF0EB] dark:bg-[#2B150B] border border-[#E0511F]/20 dark:border-[#E0511F]/30 text-[#E0511F] text-xs sm:text-sm font-semibold mb-6 shadow-sm">
             <Sparkles className="w-4 h-4" />
-            <span>Mesin Kasir Praktis POS • Paket Siap Pakai</span>
+            <span>{pillText}</span>
           </div>
 
           {/* Headline H1 */}
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-[#000000] dark:text-[#FFFFFF] tracking-tight leading-[1.15]">
-            Solusi Mesin Kasir Lengkap: <br className="hidden sm:inline" />
-            <span className="text-[#E0511F]">Buka Dus, Colok,</span> Langsung Siap Jualan.
+            {headline}
           </h1>
 
           {/* Subtitle */}
           <p className="mt-5 text-base sm:text-lg text-[#525252] dark:text-[#A1A1AA] leading-relaxed max-w-2xl mx-auto">
-            Bersama <strong>Praktis POS</strong>, kelola transaksi kasir secepat kilat, pantau stok akurat, dan otomatis pisahkan uang modal kulakan vs laba bersih toko Anda. <strong>100% tanpa biaya langganan bulanan seumur hidup.</strong>
+            {subtitle}
           </p>
 
           {/* 2 CTA Buttons */}
@@ -43,7 +54,7 @@ export const Hero: React.FC = () => {
             </a>
 
             <a
-              href={LIVE_DEMO_URL}
+              href={demoUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl text-base font-semibold bg-[#EDF0F4] dark:bg-[#222226] text-[#080808] dark:text-[#FFFFFF] hover:bg-[#E2E6EA] dark:hover:bg-[#2C2C32] transition-colors duration-200 cursor-pointer"

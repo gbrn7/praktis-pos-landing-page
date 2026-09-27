@@ -1,8 +1,15 @@
 import React from 'react';
 import { ShoppingCart, Wallet, Barcode, TrendingUp, Check } from 'lucide-react';
 import { CORE_FEATURES } from '../data/features';
+import { FeatureItem } from '../types';
 
-export const FeatureGrid: React.FC = () => {
+interface FeatureGridProps {
+  features?: FeatureItem[];
+}
+
+export const FeatureGrid: React.FC<FeatureGridProps> = ({ features }) => {
+  const featureList = features && features.length > 0 ? features : CORE_FEATURES;
+
   const getIcon = (name: string) => {
     switch (name) {
       case 'ShoppingCart': return ShoppingCart;
@@ -31,7 +38,7 @@ export const FeatureGrid: React.FC = () => {
 
         {/* 4 Feature Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {CORE_FEATURES.map((feature) => {
+          {featureList.map((feature) => {
             const Icon = getIcon(feature.iconName);
             const isHighlight = feature.id === 'dual-wallet';
 

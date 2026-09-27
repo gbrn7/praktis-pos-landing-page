@@ -1,8 +1,17 @@
 import React from 'react';
 import { MonitorPlay, ArrowRight, ShieldCheck, Zap } from 'lucide-react';
 import { LIVE_DEMO_URL } from '../data/package-data';
+import { SiteSettingsPublic } from '@/lib/db/queries';
 
-export const DemoBanner: React.FC = () => {
+interface DemoBannerProps {
+  settings?: SiteSettingsPublic;
+}
+
+export const DemoBanner: React.FC<DemoBannerProps> = ({ settings }) => {
+  const demoUrl = settings?.liveDemoUrl || LIVE_DEMO_URL;
+  const title = settings?.demoBannerTitle || 'Ingin Mencoba Langsung Praktis POS?';
+  const desc = settings?.demoBannerDesc || 'Buka aplikasi demo langsung di browser Anda sekarang. Rasakan sendiri cepatnya transaksi, kemudahan scan barcode, dan kejelasan laporan kas modal vs profit sebelum memesan paket hardware.';
+
   return (
     <section className="py-14 bg-[#FDFDFD] dark:bg-[#0B0B0C] transition-colors duration-200">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -13,16 +22,16 @@ export const DemoBanner: React.FC = () => {
               <span>Tanpa Perlu Install Apapun</span>
             </div>
             <h3 className="text-2xl sm:text-3xl font-extrabold text-[#000000] dark:text-[#FFFFFF] tracking-tight">
-              Ingin Mencoba Langsung Praktis POS?
+              {title}
             </h3>
             <p className="mt-2 text-sm text-[#525252] dark:text-[#A1A1AA] leading-relaxed">
-              Buka aplikasi demo langsung di browser Anda sekarang. Rasakan sendiri cepatnya transaksi, kemudahan scan barcode, dan kejelasan laporan kas modal vs profit sebelum memesan paket hardware.
+              {desc}
             </p>
           </div>
 
           <div className="flex flex-col sm:flex-row md:flex-col gap-3 w-full md:w-auto shrink-0">
             <a
-              href={LIVE_DEMO_URL}
+              href={demoUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl text-sm font-bold bg-[#E0511F] text-[#FFFFFF] hover:bg-[#C94213] shadow transition-all duration-200 cursor-pointer"

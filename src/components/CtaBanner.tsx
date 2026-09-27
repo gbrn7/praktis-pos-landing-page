@@ -1,10 +1,20 @@
 import React from 'react';
 import { MessageCircle, Check, ArrowRight } from 'lucide-react';
 import { PACKAGE_DATA, WHATSAPP_NUMBER } from '../data/package-data';
+import { SiteSettingsPublic } from '@/lib/db/queries';
 
-export const CtaBanner: React.FC = () => {
+interface CtaBannerProps {
+  settings?: SiteSettingsPublic;
+}
+
+export const CtaBanner: React.FC<CtaBannerProps> = ({ settings }) => {
+  const waNum = settings?.waNumber || WHATSAPP_NUMBER;
+  const waMsg = settings?.waTemplate || PACKAGE_DATA.waTemplate;
+  const title = settings?.ctaBannerTitle || 'Miliki Paket Mesin Kasir Praktis POS Hari Ini';
+  const desc = settings?.ctaBannerDesc || 'Konsultasikan jenis usaha dan kebutuhan toko Anda dengan tim kami. Perangkat kami rakit dan uji sebelum dikirim langsung ke alamat Anda.';
+
   const getWaUrl = () => {
-    return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(PACKAGE_DATA.waTemplate)}`;
+    return `https://wa.me/${waNum}?text=${encodeURIComponent(waMsg)}`;
   };
 
   return (
@@ -19,10 +29,10 @@ export const CtaBanner: React.FC = () => {
               Siap Memajukan Toko Anda?
             </span>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-[#000000] dark:text-[#FFFFFF] tracking-tight">
-              Miliki Paket Mesin Kasir Praktis POS Hari Ini
+              {title}
             </h2>
             <p className="mt-4 text-sm sm:text-base text-[#525252] dark:text-[#A1A1AA] leading-relaxed">
-              Konsultasikan jenis usaha dan kebutuhan toko Anda dengan tim kami. Perangkat kami rakit dan uji sebelum dikirim langsung ke alamat Anda.
+              {desc}
             </p>
 
             <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">

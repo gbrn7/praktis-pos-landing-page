@@ -5,6 +5,7 @@ export interface HardwareItem {
   spec: string;
   description: string;
   iconName: string;
+  imageUrl?: string | null;
 }
 
 export interface FeatureItem {

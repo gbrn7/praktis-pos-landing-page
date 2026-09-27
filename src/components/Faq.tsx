@@ -3,9 +3,15 @@
 import React, { useState } from 'react';
 import { ChevronDown, HelpCircle } from 'lucide-react';
 import { FAQS } from '../data/faqs';
+import { FaqItem } from '../types';
 
-export const Faq: React.FC = () => {
-  const [openId, setOpenId] = useState<string | null>(FAQS[0]?.id || null);
+interface FaqProps {
+  faqs?: FaqItem[];
+}
+
+export const Faq: React.FC<FaqProps> = ({ faqs }) => {
+  const faqList = faqs && faqs.length > 0 ? faqs : FAQS;
+  const [openId, setOpenId] = useState<string | null>(faqList[0]?.id || null);
 
   const toggleFaq = (id: string) => {
     setOpenId(openId === id ? null : id);
@@ -28,7 +34,7 @@ export const Faq: React.FC = () => {
         </div>
 
         <div className="space-y-3.5">
-          {FAQS.map((faq) => {
+          {faqList.map((faq) => {
             const isOpen = openId === faq.id;
             return (
               <div

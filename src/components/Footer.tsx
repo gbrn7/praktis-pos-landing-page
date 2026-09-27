@@ -4,10 +4,23 @@ import { MessageCircle } from 'lucide-react';
 import { PACKAGE_DATA, WHATSAPP_NUMBER } from '../data/package-data';
 import logoLight from '../assets/img/Logo-with-text-white-bg.png';
 import logoDark from '../assets/img/Logo-with-text-dark-bg.png';
+import { SiteSettingsPublic } from '@/lib/db/queries';
 
-export const Footer: React.FC = () => {
+interface FooterProps {
+  settings?: SiteSettingsPublic;
+  visibility?: Record<string, boolean>;
+}
+
+export const Footer: React.FC<FooterProps> = ({ settings, visibility }) => {
+  const waNum = settings?.waNumber || WHATSAPP_NUMBER;
+  const waMsg = settings?.waTemplate || PACKAGE_DATA.waTemplate;
+
+  const showHardware = visibility ? visibility.hardware !== false : true;
+  const showFeatures = visibility ? visibility.features !== false : true;
+  const showFaq = visibility ? visibility.faq !== false : true;
+
   const getWaUrl = () => {
-    return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(PACKAGE_DATA.waTemplate)}`;
+    return `https://wa.me/${waNum}?text=${encodeURIComponent(waMsg)}`;
   };
 
   return (
@@ -41,10 +54,18 @@ export const Footer: React.FC = () => {
           <div>
             <h4 className="font-bold text-[#000000] dark:text-[#FFFFFF] text-xs uppercase tracking-wider mb-3">Navigasi</h4>
             <ul className="space-y-2 text-xs">
-              <li><a href="#hardware" className="hover:text-[#000000] dark:hover:text-[#FFFFFF] transition-colors cursor-pointer">Paket Hardware</a></li>
-              <li><a href="#fitur" className="hover:text-[#000000] dark:hover:text-[#FFFFFF] transition-colors cursor-pointer">Fitur Software</a></li>
-              <li><a href="#keunggulan" className="hover:text-[#000000] dark:hover:text-[#FFFFFF] transition-colors cursor-pointer">Kas Modal & Profit</a></li>
-              <li><a href="#faq" className="hover:text-[#000000] dark:hover:text-[#FFFFFF] transition-colors cursor-pointer">Pertanyaan Umum</a></li>
+              {showHardware && (
+                <li><a href="#hardware" className="hover:text-[#000000] dark:hover:text-[#FFFFFF] transition-colors cursor-pointer">Paket Hardware</a></li>
+              )}
+              {showFeatures && (
+                <>
+                  <li><a href="#fitur" className="hover:text-[#000000] dark:hover:text-[#FFFFFF] transition-colors cursor-pointer">Fitur Software</a></li>
+                  <li><a href="#keunggulan" className="hover:text-[#000000] dark:hover:text-[#FFFFFF] transition-colors cursor-pointer">Kas Modal & Profit</a></li>
+                </>
+              )}
+              {showFaq && (
+                <li><a href="#faq" className="hover:text-[#000000] dark:hover:text-[#FFFFFF] transition-colors cursor-pointer">Pertanyaan Umum</a></li>
+              )}
             </ul>
           </div>
 

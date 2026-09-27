@@ -3,10 +3,18 @@
 import React from 'react';
 import { MessageCircle } from 'lucide-react';
 import { PACKAGE_DATA, WHATSAPP_NUMBER } from '../data/package-data';
+import { SiteSettingsPublic } from '@/lib/db/queries';
 
-export const FloatingWhatsApp: React.FC = () => {
+interface FloatingWhatsAppProps {
+  settings?: SiteSettingsPublic;
+}
+
+export const FloatingWhatsApp: React.FC<FloatingWhatsAppProps> = ({ settings }) => {
+  const waNum = settings?.waNumber || WHATSAPP_NUMBER;
+  const waMsg = settings?.waTemplate || PACKAGE_DATA.waTemplate;
+
   const getWaUrl = () => {
-    return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(PACKAGE_DATA.waTemplate)}`;
+    return `https://wa.me/${waNum}?text=${encodeURIComponent(waMsg)}`;
   };
 
   return (

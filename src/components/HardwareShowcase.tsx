@@ -1,8 +1,22 @@
 import React from 'react';
+import Image from 'next/image';
 import { Tablet, Printer, ScanBarcode, ShieldCheck, Cpu, CheckCircle2, Gift, MessageCircle, ArrowRight } from 'lucide-react';
 import { PACKAGE_DATA, WHATSAPP_NUMBER } from '../data/package-data';
+import { HardwareItem } from '../types';
+import { SiteSettingsPublic } from '@/lib/db/queries';
 
-export const HardwareShowcase: React.FC = () => {
+interface HardwareShowcaseProps {
+  items?: (HardwareItem & { imageUrl?: string | null })[];
+  bonuses?: string[];
+  settings?: SiteSettingsPublic;
+}
+
+export const HardwareShowcase: React.FC<HardwareShowcaseProps> = ({ items, bonuses, settings }) => {
+  const hardwareList = items && items.length > 0 ? items : PACKAGE_DATA.hardwareList;
+  const bonusList = bonuses && bonuses.length > 0 ? bonuses : PACKAGE_DATA.bonuses;
+  const waNum = settings?.waNumber || WHATSAPP_NUMBER;
+  const waMsg = settings?.waTemplate || PACKAGE_DATA.waTemplate;
+
   const getIcon = (name: string) => {
     switch (name) {
       case 'Tablet': return Tablet;
@@ -15,7 +29,7 @@ export const HardwareShowcase: React.FC = () => {
   };
 
   const getWaUrl = () => {
-    return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(PACKAGE_DATA.waTemplate)}`;
+    return `https://wa.me/${waNum}?text=${encodeURIComponent(waMsg)}`;
   };
 
   return (
@@ -36,7 +50,7 @@ export const HardwareShowcase: React.FC = () => {
 
         {/* 5 Hardware Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {PACKAGE_DATA.hardwareList.map((item) => {
+          {hardwareList.map((item) => {
             const IconComponent = getIcon(item.iconName);
             return (
               <div
@@ -44,9 +58,22 @@ export const HardwareShowcase: React.FC = () => {
                 className="bg-[#FFFFFF] dark:bg-[#141416] p-6 rounded-2xl border border-[#E7E7EE] dark:border-[#232326] hover:border-[#E0511F]/40 dark:hover:border-[#E0511F]/50 transition-all duration-200 shadow-sm hover:shadow-md flex flex-col justify-between"
               >
                 <div>
-                  <div className="w-12 h-12 rounded-xl bg-[#FFF0EB] dark:bg-[#2B150B] flex items-center justify-center text-[#E0511F] mb-4">
-                    <IconComponent className="w-6 h-6 stroke-[2]" />
-                  </div>
+                  {item.imageUrl ? (
+                    <div className="relative w-full h-40 rounded-xl overflow-hidden mb-4 border border-[#E7E7EE] dark:border-[#232326] bg-[#F8F9FA] dark:bg-[#18181B]">
+                      <Image
+                        src={item.imageUrl}
+                        alt={item.name}
+                        fill
+                        className="object-contain p-2"
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                      />
+                    </div>
+                  ) : (
+                    <div className="w-12 h-12 rounded-xl bg-[#FFF0EB] dark:bg-[#2B150B] flex items-center justify-center text-[#E0511F] mb-4">
+                      <IconComponent className="w-6 h-6 stroke-[2]" />
+                    </div>
+                  )}
+
                   <span className="text-xs font-semibold text-[#E0511F] uppercase tracking-wider">{item.category}</span>
                   <h3 className="text-lg font-bold text-[#000000] dark:text-[#FFFFFF] mt-1">{item.name}</h3>
                   <p className="text-xs font-medium text-[#525252] dark:text-[#A1A1AA] mt-1 bg-[#F8F9FA] dark:bg-[#18181B] p-2 rounded-lg border border-[#E7E7EE] dark:border-[#232326]">
@@ -73,7 +100,7 @@ export const HardwareShowcase: React.FC = () => {
               <span className="text-xs font-bold text-[#E0511F] uppercase tracking-wider">Bonus Spesial Pembelian</span>
               <h3 className="text-lg font-bold text-[#000000] dark:text-[#FFFFFF] mt-1">Gratis Starter Kit Toko</h3>
               <ul className="mt-3 space-y-2 text-xs text-[#525252] dark:text-[#A1A1AA]">
-                {PACKAGE_DATA.bonuses.map((b, idx) => (
+                {bonusList.map((b, idx) => (
                   <li key={idx} className="flex items-start gap-2">
                     <CheckCircle2 className="w-3.5 h-3.5 text-[#E0511F] shrink-0 mt-0.5" />
                     <span>{b}</span>
