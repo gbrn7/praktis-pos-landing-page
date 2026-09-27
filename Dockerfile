@@ -1,7 +1,7 @@
 # =============================================================================
 # Stage 1: Base Environment
 # =============================================================================
-FROM node:20-bookworm-slim AS base
+FROM node:22-bookworm-slim AS base
 WORKDIR /app
 
 # Install native dependencies needed for better-sqlite3 build
@@ -37,7 +37,7 @@ RUN npm run build
 # =============================================================================
 # Stage 4: Production Runner
 # =============================================================================
-FROM node:20-bookworm-slim AS runner
+FROM node:22-bookworm-slim AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production
