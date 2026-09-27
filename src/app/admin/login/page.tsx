@@ -69,9 +69,6 @@ export default function AdminLoginPage() {
                 priority
               />
             </div>
-            <div className="inline-flex items-center gap-1 mx-auto px-2.5 py-0.5 rounded-full bg-[#FFF0EB] dark:bg-[#2B150B] text-[#E0511F] text-xs font-bold mb-2">
-              CMS Portal Admin
-            </div>
             <CardTitle className="text-xl font-extrabold tracking-tight">Login Administrator</CardTitle>
             <CardDescription>
               Masuk untuk mengelola konten landing page & visibilitas section
