@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import {
   LayoutDashboard,
@@ -13,7 +14,6 @@ import {
   Shield,
   ExternalLink,
   LogOut,
-  Store,
 } from 'lucide-react';
 import {
   Sidebar,
@@ -25,6 +25,10 @@ import {
   SidebarMenuButton,
   useSidebar,
 } from '@/components/ui/sidebar';
+
+import logoLight from '@/assets/img/Logo-with-text-white-bg.png';
+import logoDark from '@/assets/img/Logo-with-text-dark-bg.png';
+import logoIcon from '@/assets/img/Logo.png';
 
 export const AdminSidebar: React.FC = () => {
   const pathname = usePathname();
@@ -54,17 +58,46 @@ export const AdminSidebar: React.FC = () => {
   return (
     <Sidebar>
       <SidebarHeader>
-        <div className="flex items-center gap-3 px-2 py-1">
-          <div className="w-9 h-9 rounded-xl bg-[#E0511F] flex items-center justify-center text-white shrink-0 shadow-sm">
-            <Store className="w-5 h-5" />
+        {open ? (
+          <div className="flex items-center justify-between w-full px-1 py-1">
+            <Link href="/admin" className="flex items-center gap-2 min-w-0">
+              {/* Light mode logo */}
+              <Image
+                src={logoLight}
+                alt="Praktis POS"
+                height={34}
+                width={125}
+                className="h-8 w-auto object-contain dark:hidden"
+                priority
+              />
+              {/* Dark mode logo */}
+              <Image
+                src={logoDark}
+                alt="Praktis POS"
+                height={34}
+                width={125}
+                className="h-8 w-auto object-contain hidden dark:block"
+                priority
+              />
+              <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-[#FFF0EB] dark:bg-[#2B150B] text-[#E0511F] tracking-wide uppercase shrink-0">
+                CMS
+              </span>
+            </Link>
           </div>
-          {open && (
-            <div className="flex flex-col min-w-0">
-              <span className="font-extrabold text-sm text-[#000000] dark:text-[#FFFFFF] truncate">Praktis POS</span>
-              <span className="text-[11px] text-[#E0511F] font-semibold">CMS Panel</span>
-            </div>
-          )}
-        </div>
+        ) : (
+          <div className="flex items-center justify-center w-full py-1">
+            <Link href="/admin">
+              <Image
+                src={logoIcon}
+                alt="Praktis POS"
+                height={32}
+                width={32}
+                className="h-8 w-8 object-contain"
+                priority
+              />
+            </Link>
+          </div>
+        )}
       </SidebarHeader>
 
       <SidebarContent>

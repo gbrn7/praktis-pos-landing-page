@@ -1,0 +1,23 @@
+services:
+  praktis-pos:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: praktis-pos-landing:latest
+    container_name: praktis-pos-landing
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - AUTH_SECRET=praktis-pos-secret-change-this-in-production
+    volumes:
+      - praktis_data:/app/data
+      - praktis_uploads:/app/public/uploads
+
+volumes:
+  praktis_data:
+    driver: local
+  praktis_uploads:
+    driver: local

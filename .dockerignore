@@ -1,0 +1,15 @@
+node_modules
+.next
+data/*.db
+data/*.db-wal
+data/*.db-shm
+public/uploads/*
+!public/uploads/.gitkeep
+.git
+.gitignore
+*.tsbuildinfo
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.DS_Store
+docs

@@ -7,6 +7,10 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 
+import logoLight from '@/assets/img/Logo-with-text-white-bg.png';
+import logoDark from '@/assets/img/Logo-with-text-dark-bg.png';
+import Image from 'next/image';
+
 export default function AdminLoginPage() {
   const router = useRouter();
   const [username, setUsername] = useState('');
@@ -47,13 +51,28 @@ export default function AdminLoginPage() {
       <div className="w-full max-w-md">
         <Card className="border border-[#E7E7EE] dark:border-[#232326] shadow-xl bg-white dark:bg-[#141416]">
           <CardHeader className="text-center pb-4">
-            <div className="mx-auto w-12 h-12 rounded-2xl bg-[#FFF0EB] dark:bg-[#2B150B] flex items-center justify-center text-[#E0511F] mb-3">
-              <ShieldCheck className="w-6 h-6 stroke-[2]" />
+            <div className="flex items-center justify-center mb-3">
+              <Image
+                src={logoLight}
+                alt="Praktis POS"
+                height={44}
+                width={160}
+                className="h-10 w-auto object-contain dark:hidden"
+                priority
+              />
+              <Image
+                src={logoDark}
+                alt="Praktis POS"
+                height={44}
+                width={160}
+                className="h-10 w-auto object-contain hidden dark:block"
+                priority
+              />
             </div>
             <div className="inline-flex items-center gap-1 mx-auto px-2.5 py-0.5 rounded-full bg-[#FFF0EB] dark:bg-[#2B150B] text-[#E0511F] text-xs font-bold mb-2">
-              CMS Portal
+              CMS Portal Admin
             </div>
-            <CardTitle className="text-2xl font-extrabold tracking-tight">Praktis POS Admin</CardTitle>
+            <CardTitle className="text-xl font-extrabold tracking-tight">Login Administrator</CardTitle>
             <CardDescription>
               Masuk untuk mengelola konten landing page & visibilitas section
             </CardDescription>
