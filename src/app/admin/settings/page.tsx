@@ -58,6 +58,11 @@ export default async function AdminSettingsPage() {
     socialProofMetrics: initialSocialProofMetrics,
     targetIndustries: initialTargetIndustries,
     targetIndustriesTitle: current?.targetIndustriesTitle || DEFAULT_TARGET_INDUSTRIES_TITLE,
+    hardwarePill: current?.hardwarePill || "What's In The Box",
+    hardwareHeadline: current?.hardwareHeadline || '1 Paket Lengkap Mesin Kasir Praktis POS',
+    hardwareSubtitle:
+      current?.hardwareSubtitle ||
+      'Semua perangkat yang Anda butuhkan untuk operasional toko sudah tersedia dalam satu paket. Buka dus, colok kabel, dan langsung siap transaksi.',
     waNumber: current?.waNumber || '6281234567890',
     waTemplate: current?.waTemplate || 'Halo tim Praktis POS, saya tertarik dengan Paket Komplit Mesin Kasir Siap Pakai. Mohon informasi ketersediaan paket dan cara pemesanannya. Terima kasih!',
     liveDemoUrl: current?.liveDemoUrl || 'http://localhost:8000',

@@ -25,6 +25,9 @@ export interface SiteSettingsPublic {
   socialProofMetrics: SocialProofMetric[];
   targetIndustries: TargetIndustryItem[];
   targetIndustriesTitle: string;
+  hardwarePill: string;
+  hardwareHeadline: string;
+  hardwareSubtitle: string;
   waNumber: string;
   waTemplate: string;
   liveDemoUrl: string;
@@ -111,6 +114,11 @@ export async function getLandingPageData(): Promise<LandingPageData> {
           socialProofMetrics: parsedMetrics,
           targetIndustries: parsedIndustries,
           targetIndustriesTitle: settingsRecord.targetIndustriesTitle || DEFAULT_TARGET_INDUSTRIES_TITLE,
+          hardwarePill: settingsRecord.hardwarePill || "What's In The Box",
+          hardwareHeadline: settingsRecord.hardwareHeadline || '1 Paket Lengkap Mesin Kasir Praktis POS',
+          hardwareSubtitle:
+            settingsRecord.hardwareSubtitle ||
+            'Semua perangkat yang Anda butuhkan untuk operasional toko sudah tersedia dalam satu paket. Buka dus, colok kabel, dan langsung siap transaksi.',
           waNumber: settingsRecord.waNumber,
           waTemplate: settingsRecord.waTemplate,
           liveDemoUrl: settingsRecord.liveDemoUrl,
@@ -129,6 +137,10 @@ export async function getLandingPageData(): Promise<LandingPageData> {
           socialProofMetrics: DEFAULT_SOCIAL_PROOF_METRICS,
           targetIndustries: DEFAULT_TARGET_INDUSTRIES,
           targetIndustriesTitle: DEFAULT_TARGET_INDUSTRIES_TITLE,
+          hardwarePill: "What's In The Box",
+          hardwareHeadline: '1 Paket Lengkap Mesin Kasir Praktis POS',
+          hardwareSubtitle:
+            'Semua perangkat yang Anda butuhkan untuk operasional toko sudah tersedia dalam satu paket. Buka dus, colok kabel, dan langsung siap transaksi.',
           waNumber: WHATSAPP_NUMBER,
           waTemplate: PACKAGE_DATA.waTemplate,
           liveDemoUrl: LIVE_DEMO_URL,
@@ -224,6 +236,10 @@ export async function getLandingPageData(): Promise<LandingPageData> {
         socialProofMetrics: DEFAULT_SOCIAL_PROOF_METRICS,
         targetIndustries: DEFAULT_TARGET_INDUSTRIES,
         targetIndustriesTitle: DEFAULT_TARGET_INDUSTRIES_TITLE,
+        hardwarePill: "What's In The Box",
+        hardwareHeadline: '1 Paket Lengkap Mesin Kasir Praktis POS',
+        hardwareSubtitle:
+          'Semua perangkat yang Anda butuhkan untuk operasional toko sudah tersedia dalam satu paket. Buka dus, colok kabel, dan langsung siap transaksi.',
         waNumber: WHATSAPP_NUMBER,
         waTemplate: PACKAGE_DATA.waTemplate,
         liveDemoUrl: LIVE_DEMO_URL,

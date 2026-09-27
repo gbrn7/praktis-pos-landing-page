@@ -15,6 +15,9 @@ export async function updateSiteSettings(data: {
   socialProofMetrics?: { number: string; label: string; desc: string }[] | string | null;
   targetIndustries?: { name: string; iconName: string }[] | string | null;
   targetIndustriesTitle?: string | null;
+  hardwarePill?: string;
+  hardwareHeadline?: string;
+  hardwareSubtitle?: string;
   waNumber: string;
   waTemplate: string;
   liveDemoUrl: string;
@@ -62,6 +65,7 @@ export async function updateSiteSettings(data: {
     safeRevalidatePath('/');
     safeRevalidatePath('/admin');
     safeRevalidatePath('/admin/settings');
+    safeRevalidatePath('/admin/hardware');
 
     return { success: true };
   } catch (error) {

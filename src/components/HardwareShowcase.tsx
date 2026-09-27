@@ -38,13 +38,14 @@ export const HardwareShowcase: React.FC<HardwareShowcaseProps> = ({ items, bonus
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-14">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FFF0EB] dark:bg-[#2B150B] text-[#E0511F] text-xs font-bold uppercase tracking-wider mb-3">
-            What's In The Box
+            {settings?.hardwarePill || "What's In The Box"}
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-[#000000] dark:text-[#FFFFFF] tracking-tight">
-            1 Paket Lengkap Mesin Kasir Praktis POS
+            {settings?.hardwareHeadline || '1 Paket Lengkap Mesin Kasir Praktis POS'}
           </h2>
           <p className="mt-3 text-base text-[#525252] dark:text-[#A1A1AA]">
-            Semua perangkat yang Anda butuhkan untuk operasional toko sudah tersedia dalam satu paket. Buka dus, colok kabel, dan langsung siap transaksi.
+            {settings?.hardwareSubtitle ||
+              'Semua perangkat yang Anda butuhkan untuk operasional toko sudah tersedia dalam satu paket. Buka dus, colok kabel, dan langsung siap transaksi.'}
           </p>
         </div>
 

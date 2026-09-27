@@ -3,7 +3,8 @@ import { db } from '@/lib/db';
 import { hardwareItems, hardwareBonuses } from '@/lib/db/schema';
 import { ensureDatabaseSeeded } from '@/lib/db/seed';
 import { HardwareManager } from './HardwareManager';
-import { Package } from 'lucide-react';
+import { Package, Sliders } from 'lucide-react';
+import Link from 'next/link';
 
 export const dynamic = 'force-dynamic';
 
@@ -29,6 +30,13 @@ export default async function AdminHardwarePage() {
             Atur spesifikasi tiap perangkat dalam paket kasir, upload foto produk lokal, dan perbarui bonus starter kit toko.
           </p>
         </div>
+        <Link
+          href="/admin/settings"
+          className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold border border-[#E7E7EE] dark:border-[#232326] bg-[#FFFFFF] dark:bg-[#18181B] hover:bg-[#F8F9FA] dark:hover:bg-[#202024] text-[#000000] dark:text-[#FFFFFF] transition-colors shrink-0"
+        >
+          <Sliders className="w-3.5 h-3.5 text-[#E0511F]" />
+          <span>Edit Teks What's In The Box</span>
+        </Link>
       </div>
 
       <HardwareManager initialItems={items} initialBonuses={bonuses} />

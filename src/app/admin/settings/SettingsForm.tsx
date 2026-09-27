@@ -77,6 +77,9 @@ interface SiteSettingsData {
   socialProofMetrics?: SocialProofMetric[];
   targetIndustries?: TargetIndustryItem[];
   targetIndustriesTitle?: string;
+  hardwarePill?: string;
+  hardwareHeadline?: string;
+  hardwareSubtitle?: string;
   waNumber: string;
   waTemplate: string;
   liveDemoUrl: string;
@@ -101,6 +104,11 @@ export const SettingsForm: React.FC<Props> = ({ initialSettings }) => {
     socialProofMetrics: initialSettings.socialProofMetrics || DEFAULT_SOCIAL_PROOF_METRICS,
     targetIndustries: initialSettings.targetIndustries || DEFAULT_TARGET_INDUSTRIES,
     targetIndustriesTitle: initialSettings.targetIndustriesTitle || DEFAULT_TARGET_INDUSTRIES_TITLE,
+    hardwarePill: initialSettings.hardwarePill || "What's In The Box",
+    hardwareHeadline: initialSettings.hardwareHeadline || '1 Paket Lengkap Mesin Kasir Praktis POS',
+    hardwareSubtitle:
+      initialSettings.hardwareSubtitle ||
+      'Semua perangkat yang Anda butuhkan untuk operasional toko sudah tersedia dalam satu paket. Buka dus, colok kabel, dan langsung siap transaksi.',
   });
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -108,7 +116,34 @@ export const SettingsForm: React.FC<Props> = ({ initialSettings }) => {
   const [savingHero, setSavingHero] = useState(false);
   const [savingMetrics, setSavingMetrics] = useState(false);
   const [savingIndustries, setSavingIndustries] = useState(false);
+  const [savingHardware, setSavingHardware] = useState(false);
   const [feedback, setFeedback] = useState<{ msg: string; type: 'success' | 'error' } | null>(null);
+
+  // --- Hardware Header Handlers ---
+  const handleResetHardware = () => {
+    setForm({
+      ...form,
+      hardwarePill: "What's In The Box",
+      hardwareHeadline: '1 Paket Lengkap Mesin Kasir Praktis POS',
+      hardwareSubtitle:
+        'Semua perangkat yang Anda butuhkan untuk operasional toko sudah tersedia dalam satu paket. Buka dus, colok kabel, dan langsung siap transaksi.',
+    });
+  };
+
+  const handleSaveHardwareOnly = async () => {
+    setSavingHardware(true);
+    setFeedback(null);
+    const res = await updateSiteSettings(form);
+    if (res.success) {
+      setFeedback({
+        msg: "Teks judul & deskripsi What's In The Box berhasil disimpan dan langsung aktif di landing page!",
+        type: 'success',
+      });
+    } else {
+      setFeedback({ msg: res.error || 'Gagal menyimpan header hardware', type: 'error' });
+    }
+    setSavingHardware(false);
+  };
 
   // --- Target Industries Handlers ---
   const handleIndustryChange = (index: number, field: keyof TargetIndustryItem, value: string) => {
@@ -890,6 +925,106 @@ export const SettingsForm: React.FC<Props> = ({ initialSettings }) => {
           >
             <Save className="w-4 h-4" />
             <span>{savingIndustries ? 'Menyimpan...' : 'Simpan Target Industri'}</span>
+          </Button>
+        </CardFooter>
+      </Card>
+
+      {/* Hardware Section Header Settings */}
+      <Card>
+        <CardHeader>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="flex items-center gap-2">
+              <Package className="w-5 h-5 text-[#E0511F]" />
+              <div>
+                <CardTitle>Header Paket Hardware (What's In The Box)</CardTitle>
+                <CardDescription>
+                  Atur teks lencana, judul headline, dan deskripsi pengantar pada section paket perangkat kasir di landing page
+                </CardDescription>
+              </div>
+            </div>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={handleResetHardware}
+              className="text-xs h-8"
+              title="Kembalikan teks header hardware ke bawaan"
+            >
+              <RotateCcw className="w-3 h-3 mr-1" />
+              <span>Reset Default</span>
+            </Button>
+          </div>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="space-y-1.5 sm:col-span-1">
+              <label className="text-xs font-bold text-[#000000] dark:text-[#FFFFFF]">
+                Badge Pill / Label Atas
+              </label>
+              <Input
+                value={form.hardwarePill || ''}
+                onChange={(e) => setForm({ ...form, hardwarePill: e.target.value })}
+                placeholder="Contoh: What's In The Box"
+                required
+              />
+            </div>
+
+            <div className="space-y-1.5 sm:col-span-2">
+              <label className="text-xs font-bold text-[#000000] dark:text-[#FFFFFF]">
+                Judul Utama Headline
+              </label>
+              <Input
+                value={form.hardwareHeadline || ''}
+                onChange={(e) => setForm({ ...form, hardwareHeadline: e.target.value })}
+                placeholder="Contoh: 1 Paket Lengkap Mesin Kasir Praktis POS"
+                required
+              />
+            </div>
+          </div>
+
+          <div className="space-y-1.5">
+            <label className="text-xs font-bold text-[#000000] dark:text-[#FFFFFF]">
+              Deskripsi Subtitle
+            </label>
+            <Textarea
+              rows={2}
+              value={form.hardwareSubtitle || ''}
+              onChange={(e) => setForm({ ...form, hardwareSubtitle: e.target.value })}
+              placeholder="Contoh: Semua perangkat yang Anda butuhkan untuk operasional toko sudah tersedia dalam satu paket..."
+              required
+            />
+          </div>
+
+          {/* Live Visual Preview */}
+          <div className="mt-4 p-6 rounded-xl border border-[#E7E7EE] dark:border-[#232326] bg-[#FDFDFD] dark:bg-[#0B0B0C] text-center">
+            <div className="text-[10px] font-bold text-[#71717A] uppercase tracking-wider mb-3 text-left">
+              Pratinjau Tampilan Header di Landing Page:
+            </div>
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FFF0EB] dark:bg-[#2B150B] text-[#E0511F] text-xs font-bold uppercase tracking-wider mb-3">
+              {form.hardwarePill || "What's In The Box"}
+            </div>
+            <h3 className="text-2xl sm:text-3xl font-extrabold text-[#000000] dark:text-[#FFFFFF] tracking-tight">
+              {form.hardwareHeadline || '1 Paket Lengkap Mesin Kasir Praktis POS'}
+            </h3>
+            <p className="mt-2 text-sm text-[#525252] dark:text-[#A1A1AA] max-w-2xl mx-auto">
+              {form.hardwareSubtitle ||
+                'Semua perangkat yang Anda butuhkan untuk operasional toko sudah tersedia dalam satu paket. Buka dus, colok kabel, dan langsung siap transaksi.'}
+            </p>
+          </div>
+        </CardContent>
+
+        <CardFooter className="pt-3 border-t border-[#E7E7EE] dark:border-[#232326] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <span className="text-xs text-[#525252] dark:text-[#A1A1AA]">
+            {savingHardware ? 'Sedang menyimpan header hardware...' : 'Simpan teks judul dan deskripsi What\'s In The Box di atas.'}
+          </span>
+          <Button
+            type="button"
+            onClick={handleSaveHardwareOnly}
+            disabled={savingHardware || loading}
+            className="font-bold gap-2 bg-[#E0511F] hover:bg-[#C94213] text-white shrink-0"
+          >
+            <Save className="w-4 h-4" />
+            <span>{savingHardware ? 'Menyimpan...' : 'Simpan Header Hardware'}</span>
           </Button>
         </CardFooter>
       </Card>
