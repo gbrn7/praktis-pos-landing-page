@@ -24,3 +24,10 @@ out
 *.njsproj
 *.sln
 *.sw?
+
+# Database and Uploads
+data/*.db
+data/*.db-wal
+data/*.db-shm
+public/uploads/*
+!public/uploads/.gitkeep
