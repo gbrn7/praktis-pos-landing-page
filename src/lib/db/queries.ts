@@ -11,7 +11,10 @@ import { ensureDatabaseSeeded } from './seed';
 import { PACKAGE_DATA, WHATSAPP_NUMBER, LIVE_DEMO_URL } from '@/data/package-data';
 import { CORE_FEATURES } from '@/data/features';
 import { FAQS } from '@/data/faqs';
-import { FeatureItem, FaqItem, HardwareItem } from '@/types';
+import { FeatureItem, FaqItem, HardwareItem, SocialProofMetric, DEFAULT_SOCIAL_PROOF_METRICS } from '@/types';
+
+export { DEFAULT_SOCIAL_PROOF_METRICS };
+export type { SocialProofMetric };
 
 export interface SiteSettingsPublic {
   heroPill: string;
@@ -19,6 +22,7 @@ export interface SiteSettingsPublic {
   heroSubtitle: string;
   heroMockupImage: string;
   heroHighlights: string[];
+  socialProofMetrics: SocialProofMetric[];
   waNumber: string;
   waTemplate: string;
   liveDemoUrl: string;
@@ -71,6 +75,18 @@ export async function getLandingPageData(): Promise<LandingPageData> {
       }
     }
 
+    let parsedMetrics: SocialProofMetric[] = DEFAULT_SOCIAL_PROOF_METRICS;
+    if (settingsRecord?.socialProofMetrics) {
+      try {
+        const val = JSON.parse(settingsRecord.socialProofMetrics);
+        if (Array.isArray(val) && val.length > 0) {
+          parsedMetrics = val;
+        }
+      } catch {
+        // fallback
+      }
+    }
+
     const settings: SiteSettingsPublic = settingsRecord
       ? {
           heroPill: settingsRecord.heroPill,
@@ -78,6 +94,7 @@ export async function getLandingPageData(): Promise<LandingPageData> {
           heroSubtitle: settingsRecord.heroSubtitle,
           heroMockupImage: settingsRecord.heroMockupImage || '/mockup-dashboard.png',
           heroHighlights: parsedHighlights,
+          socialProofMetrics: parsedMetrics,
           waNumber: settingsRecord.waNumber,
           waTemplate: settingsRecord.waTemplate,
           liveDemoUrl: settingsRecord.liveDemoUrl,
@@ -93,6 +110,7 @@ export async function getLandingPageData(): Promise<LandingPageData> {
             'Bersama Praktis POS, kelola transaksi kasir secepat kilat, pantau stok akurat, dan otomatis pisahkan uang modal kulakan vs laba bersih toko Anda. 100% tanpa biaya langganan bulanan seumur hidup.',
           heroMockupImage: '/mockup-dashboard.png',
           heroHighlights: ['Hak Milik Seumur Hidup', 'Garansi Hardware 1 Tahun', 'Gratis Setup & Training'],
+          socialProofMetrics: DEFAULT_SOCIAL_PROOF_METRICS,
           waNumber: WHATSAPP_NUMBER,
           waTemplate: PACKAGE_DATA.waTemplate,
           liveDemoUrl: LIVE_DEMO_URL,
@@ -185,6 +203,7 @@ export async function getLandingPageData(): Promise<LandingPageData> {
           'Bersama Praktis POS, kelola transaksi kasir secepat kilat, pantau stok akurat, dan otomatis pisahkan uang modal kulakan vs laba bersih toko Anda. 100% tanpa biaya langganan bulanan seumur hidup.',
         heroMockupImage: '/mockup-dashboard.png',
         heroHighlights: ['Hak Milik Seumur Hidup', 'Garansi Hardware 1 Tahun', 'Gratis Setup & Training'],
+        socialProofMetrics: DEFAULT_SOCIAL_PROOF_METRICS,
         waNumber: WHATSAPP_NUMBER,
         waTemplate: PACKAGE_DATA.waTemplate,
         liveDemoUrl: LIVE_DEMO_URL,

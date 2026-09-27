@@ -12,6 +12,7 @@ export async function updateSiteSettings(data: {
   heroSubtitle: string;
   heroMockupImage?: string | null;
   heroHighlights?: string[] | string | null;
+  socialProofMetrics?: { number: string; label: string; desc: string }[] | string | null;
   waNumber: string;
   waTemplate: string;
   liveDemoUrl: string;
@@ -31,6 +32,11 @@ export async function updateSiteSettings(data: {
         ? JSON.stringify(data.heroHighlights)
         : typeof data.heroHighlights === 'string'
         ? data.heroHighlights
+        : null,
+      socialProofMetrics: Array.isArray(data.socialProofMetrics)
+        ? JSON.stringify(data.socialProofMetrics)
+        : typeof data.socialProofMetrics === 'string'
+        ? data.socialProofMetrics
         : null,
       updatedAt: Math.floor(Date.now() / 1000),
     };

@@ -1,13 +1,13 @@
 import React from 'react';
 import { Store, ShoppingBag, Coffee, Sparkles } from 'lucide-react';
+import { SocialProofMetric, DEFAULT_SOCIAL_PROOF_METRICS } from '@/types';
 
-export const SocialProof: React.FC = () => {
-  const metrics = [
-    { number: 'Rp 0', label: 'Biaya Bulanan', desc: 'Sekali beli, bebas biaya sewa atau perpanjangan selamanya' },
-    { number: '100%', label: 'Siap Pakai', desc: 'Hardware, driver & database sudah di-setting sebelum kirim' },
-    { number: '2 Dompet', label: 'Terpisah Otomatis', desc: 'Uang modal kulakan & laba bersih tidak akan tercampur' },
-    { number: '1 Tahun', label: 'Garansi Resmi', desc: 'Jaminan penggantian unit hardware & konsultasi teknis' },
-  ];
+interface SocialProofProps {
+  metrics?: SocialProofMetric[];
+}
+
+export const SocialProof: React.FC<SocialProofProps> = ({ metrics }) => {
+  const metricItems = metrics && metrics.length > 0 ? metrics : DEFAULT_SOCIAL_PROOF_METRICS;
 
   const industries = [
     { name: 'Minimarket & Kelontong', icon: Store },
@@ -21,7 +21,7 @@ export const SocialProof: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* 4 Metrik Utama */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
-          {metrics.map((m, idx) => (
+          {metricItems.map((m, idx) => (
             <div key={idx} className="text-center sm:text-left">
               <div className="text-2xl sm:text-3xl font-extrabold text-[#E0511F]">{m.number}</div>
               <div className="text-sm font-bold text-[#000000] dark:text-[#FFFFFF] mt-0.5">{m.label}</div>

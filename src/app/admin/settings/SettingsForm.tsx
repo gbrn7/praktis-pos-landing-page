@@ -20,8 +20,10 @@ import {
   Check,
   Plus,
   Trash2,
+  BarChart3,
 } from 'lucide-react';
 import { updateSiteSettings } from './actions';
+import { SocialProofMetric, DEFAULT_SOCIAL_PROOF_METRICS } from '@/types';
 
 interface SiteSettingsData {
   heroPill: string;
@@ -29,6 +31,7 @@ interface SiteSettingsData {
   heroSubtitle: string;
   heroMockupImage?: string | null;
   heroHighlights?: string[];
+  socialProofMetrics?: SocialProofMetric[];
   waNumber: string;
   waTemplate: string;
   liveDemoUrl: string;
@@ -50,12 +53,57 @@ export const SettingsForm: React.FC<Props> = ({ initialSettings }) => {
       'Garansi Hardware 1 Tahun',
       'Gratis Setup & Training',
     ],
+    socialProofMetrics: initialSettings.socialProofMetrics || DEFAULT_SOCIAL_PROOF_METRICS,
   });
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [savingMockup, setSavingMockup] = useState(false);
   const [savingHero, setSavingHero] = useState(false);
+  const [savingMetrics, setSavingMetrics] = useState(false);
   const [feedback, setFeedback] = useState<{ msg: string; type: 'success' | 'error' } | null>(null);
+
+  // --- Metrics Handlers ---
+  const handleMetricChange = (index: number, field: keyof SocialProofMetric, value: string) => {
+    const list = [...(form.socialProofMetrics || DEFAULT_SOCIAL_PROOF_METRICS)].map((item) => ({ ...item }));
+    if (list[index]) {
+      list[index][field] = value;
+      setForm({ ...form, socialProofMetrics: list });
+    }
+  };
+
+  const handleAddMetric = () => {
+    const list = [...(form.socialProofMetrics || DEFAULT_SOCIAL_PROOF_METRICS)].map((item) => ({ ...item }));
+    list.push({ number: '100%', label: 'Fitur Unggulan', desc: 'Penjelasan manfaat fitur bagi operasional toko' });
+    setForm({ ...form, socialProofMetrics: list });
+  };
+
+  const handleRemoveMetric = (index: number) => {
+    const list = [...(form.socialProofMetrics || DEFAULT_SOCIAL_PROOF_METRICS)].map((item) => ({ ...item }));
+    list.splice(index, 1);
+    setForm({ ...form, socialProofMetrics: list });
+  };
+
+  const handleResetMetrics = () => {
+    setForm({
+      ...form,
+      socialProofMetrics: DEFAULT_SOCIAL_PROOF_METRICS.map((item) => ({ ...item })),
+    });
+  };
+
+  const handleSaveMetricsOnly = async () => {
+    setSavingMetrics(true);
+    setFeedback(null);
+    const res = await updateSiteSettings(form);
+    if (res.success) {
+      setFeedback({
+        msg: 'Metrik keunggulan berhasil disimpan dan langsung aktif di landing page!',
+        type: 'success',
+      });
+    } else {
+      setFeedback({ msg: res.error || 'Gagal menyimpan metrik keunggulan', type: 'error' });
+    }
+    setSavingMetrics(false);
+  };
 
   // --- Highlights Handlers ---
   const handleHighlightChange = (index: number, value: string) => {
@@ -457,6 +505,146 @@ export const SettingsForm: React.FC<Props> = ({ initialSettings }) => {
           >
             <Save className="w-4 h-4" />
             <span>{savingMockup ? 'Menyimpan...' : 'Simpan Gambar Mockup'}</span>
+          </Button>
+        </CardFooter>
+      </Card>
+
+      {/* Social Proof Metrics Settings */}
+      <Card>
+        <CardHeader>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="flex items-center gap-2">
+              <BarChart3 className="w-5 h-5 text-[#E0511F]" />
+              <div>
+                <CardTitle>Metrik Nilai & Keunggulan (Social Proof)</CardTitle>
+                <CardDescription>
+                  Atur 4 kartu angka sorotan dan keunggulan utama di bawah Hero section landing page
+                </CardDescription>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={handleResetMetrics}
+                className="text-xs h-8"
+                title="Kembalikan 4 kartu ke metrik bawaan"
+              >
+                <RotateCcw className="w-3 h-3 mr-1" />
+                <span>Reset Default</span>
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={handleAddMetric}
+                className="text-xs h-8 text-[#E0511F] border-[#E0511F]/30 hover:bg-[#FFF0EB] dark:hover:bg-[#2B150B]"
+              >
+                <Plus className="w-3 h-3 mr-1" />
+                <span>Tambah Kartu</span>
+              </Button>
+            </div>
+          </div>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {(form.socialProofMetrics || []).map((m, idx) => (
+              <div
+                key={idx}
+                className="p-4 rounded-xl border border-[#E7E7EE] dark:border-[#232326] bg-zinc-50/60 dark:bg-zinc-900/50 space-y-3 relative group"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold text-[#E0511F] px-2 py-0.5 rounded-md bg-[#FFF0EB] dark:bg-[#2B150B]">
+                    Kartu #{idx + 1}
+                  </span>
+                  {(form.socialProofMetrics || []).length > 1 && (
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => handleRemoveMetric(idx)}
+                      title="Hapus kartu ini"
+                      className="h-7 w-7 p-0 text-[#71717A] hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </Button>
+                  )}
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                  <div className="space-y-1">
+                    <label className="text-[11px] font-semibold text-[#525252] dark:text-[#A1A1AA]">
+                      Angka / Sorotan
+                    </label>
+                    <Input
+                      value={m.number}
+                      onChange={(e) => handleMetricChange(idx, 'number', e.target.value)}
+                      placeholder="Contoh: Rp 0 / 100%"
+                      className="h-8 text-xs font-bold text-[#E0511F]"
+                      required
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-[11px] font-semibold text-[#525252] dark:text-[#A1A1AA]">
+                      Label Judul
+                    </label>
+                    <Input
+                      value={m.label}
+                      onChange={(e) => handleMetricChange(idx, 'label', e.target.value)}
+                      placeholder="Contoh: Biaya Bulanan"
+                      className="h-8 text-xs font-semibold"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-[11px] font-semibold text-[#525252] dark:text-[#A1A1AA]">
+                    Penjelasan Singkat
+                  </label>
+                  <Textarea
+                    rows={2}
+                    value={m.desc}
+                    onChange={(e) => handleMetricChange(idx, 'desc', e.target.value)}
+                    placeholder="Contoh: Sekali beli, bebas biaya sewa atau perpanjangan selamanya"
+                    className="text-xs resize-none"
+                    required
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Live Preview */}
+          <div className="mt-4 p-4 rounded-xl border border-[#E7E7EE] dark:border-[#232326] bg-white dark:bg-[#111113]">
+            <div className="text-[10px] font-bold text-[#71717A] uppercase tracking-wider mb-3">
+              Pratinjau Tampilan di Landing Page:
+            </div>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+              {(form.socialProofMetrics || []).map((m, idx) => (
+                <div key={idx} className="text-center sm:text-left">
+                  <div className="text-xl sm:text-2xl font-extrabold text-[#E0511F]">{m.number || '—'}</div>
+                  <div className="text-xs sm:text-sm font-bold text-[#000000] dark:text-[#FFFFFF] mt-0.5">{m.label || '—'}</div>
+                  <p className="text-[11px] text-[#525252] dark:text-[#A1A1AA] mt-1 leading-relaxed">{m.desc || '—'}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </CardContent>
+
+        <CardFooter className="pt-3 border-t border-[#E7E7EE] dark:border-[#232326] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <span className="text-xs text-[#525252] dark:text-[#A1A1AA]">
+            {savingMetrics ? 'Sedang menyimpan metrik...' : 'Simpan perubahan metrik keunggulan di atas.'}
+          </span>
+          <Button
+            type="button"
+            onClick={handleSaveMetricsOnly}
+            disabled={savingMetrics || loading}
+            className="font-bold gap-2 bg-[#E0511F] hover:bg-[#C94213] text-white shrink-0"
+          >
+            <Save className="w-4 h-4" />
+            <span>{savingMetrics ? 'Menyimpan...' : 'Simpan Metrik Keunggulan'}</span>
           </Button>
         </CardFooter>
       </Card>
