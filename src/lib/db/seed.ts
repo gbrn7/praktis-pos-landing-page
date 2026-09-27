@@ -39,6 +39,7 @@ export function ensureDatabaseSeeded() {
       hero_headline TEXT NOT NULL,
       hero_subtitle TEXT NOT NULL,
       hero_mockup_image TEXT,
+      hero_highlights TEXT,
       wa_number TEXT NOT NULL DEFAULT '6281234567890',
       wa_template TEXT NOT NULL,
       live_demo_url TEXT NOT NULL,
@@ -124,6 +125,9 @@ export function ensureDatabaseSeeded() {
     if (siteCols.length > 0 && !siteCols.some((col) => col.name === 'hero_mockup_image')) {
       sqlite.exec("ALTER TABLE site_settings ADD COLUMN hero_mockup_image TEXT;");
     }
+    if (siteCols.length > 0 && !siteCols.some((col) => col.name === 'hero_highlights')) {
+      sqlite.exec("ALTER TABLE site_settings ADD COLUMN hero_highlights TEXT;");
+    }
   } catch (err) {
     console.error('Migration error on site_settings:', err);
   }
@@ -133,15 +137,16 @@ export function ensureDatabaseSeeded() {
     sqlite
       .prepare(`
         INSERT INTO site_settings (
-          hero_pill, hero_headline, hero_subtitle, hero_mockup_image, wa_number, wa_template, live_demo_url,
+          hero_pill, hero_headline, hero_subtitle, hero_mockup_image, hero_highlights, wa_number, wa_template, live_demo_url,
           demo_banner_title, demo_banner_desc, cta_banner_title, cta_banner_desc
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       `)
       .run(
         'Mesin Kasir Praktis POS • Paket Siap Pakai',
         'Solusi Mesin Kasir Lengkap: Buka Dus, Colok, Langsung Siap Jualan.',
         'Bersama Praktis POS, kelola transaksi kasir secepat kilat, pantau stok akurat, dan otomatis pisahkan uang modal kulakan vs laba bersih toko Anda. 100% tanpa biaya langganan bulanan seumur hidup.',
         '/mockup-dashboard.png',
+        JSON.stringify(['Hak Milik Seumur Hidup', 'Garansi Hardware 1 Tahun', 'Gratis Setup & Training']),
         WHATSAPP_NUMBER,
         PACKAGE_DATA.waTemplate,
         LIVE_DEMO_URL,

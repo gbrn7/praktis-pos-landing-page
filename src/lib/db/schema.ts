@@ -22,6 +22,7 @@ export const siteSettings = sqliteTable('site_settings', {
   heroHeadline: text('hero_headline').notNull(),
   heroSubtitle: text('hero_subtitle').notNull(),
   heroMockupImage: text('hero_mockup_image'),
+  heroHighlights: text('hero_highlights'),
   waNumber: text('wa_number').notNull().default('6281234567890'),
   waTemplate: text('wa_template').notNull(),
   liveDemoUrl: text('live_demo_url').notNull(),

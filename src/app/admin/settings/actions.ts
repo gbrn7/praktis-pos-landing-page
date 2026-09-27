@@ -11,6 +11,7 @@ export async function updateSiteSettings(data: {
   heroHeadline: string;
   heroSubtitle: string;
   heroMockupImage?: string | null;
+  heroHighlights?: string[] | string | null;
   waNumber: string;
   waTemplate: string;
   liveDemoUrl: string;
@@ -24,19 +25,24 @@ export async function updateSiteSettings(data: {
 
     const current = db.select().from(siteSettings).limit(1).get();
 
+    const payload = {
+      ...data,
+      heroHighlights: Array.isArray(data.heroHighlights)
+        ? JSON.stringify(data.heroHighlights)
+        : typeof data.heroHighlights === 'string'
+        ? data.heroHighlights
+        : null,
+      updatedAt: Math.floor(Date.now() / 1000),
+    };
+
     if (current) {
       db.update(siteSettings)
-        .set({
-          ...data,
-          updatedAt: Math.floor(Date.now() / 1000),
-        })
+        .set(payload)
         .where(eq(siteSettings.id, current.id))
         .run();
     } else {
       db.insert(siteSettings)
-        .values({
-          ...data,
-        })
+        .values(payload)
         .run();
     }
 

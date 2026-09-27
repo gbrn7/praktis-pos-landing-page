@@ -17,6 +17,9 @@ import {
   Upload,
   RotateCcw,
   Image as ImageIcon,
+  Check,
+  Plus,
+  Trash2,
 } from 'lucide-react';
 import { updateSiteSettings } from './actions';
 
@@ -25,6 +28,7 @@ interface SiteSettingsData {
   heroHeadline: string;
   heroSubtitle: string;
   heroMockupImage?: string | null;
+  heroHighlights?: string[];
   waNumber: string;
   waTemplate: string;
   liveDemoUrl: string;
@@ -39,12 +43,62 @@ interface Props {
 }
 
 export const SettingsForm: React.FC<Props> = ({ initialSettings }) => {
-  const [form, setForm] = useState<SiteSettingsData>(initialSettings);
+  const [form, setForm] = useState<SiteSettingsData>({
+    ...initialSettings,
+    heroHighlights: initialSettings.heroHighlights || [
+      'Hak Milik Seumur Hidup',
+      'Garansi Hardware 1 Tahun',
+      'Gratis Setup & Training',
+    ],
+  });
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [savingMockup, setSavingMockup] = useState(false);
+  const [savingHero, setSavingHero] = useState(false);
   const [feedback, setFeedback] = useState<{ msg: string; type: 'success' | 'error' } | null>(null);
 
+  // --- Highlights Handlers ---
+  const handleHighlightChange = (index: number, value: string) => {
+    const list = [...(form.heroHighlights || [])];
+    list[index] = value;
+    setForm({ ...form, heroHighlights: list });
+  };
+
+  const handleAddHighlight = () => {
+    const list = [...(form.heroHighlights || [])];
+    list.push('');
+    setForm({ ...form, heroHighlights: list });
+  };
+
+  const handleRemoveHighlight = (index: number) => {
+    const list = [...(form.heroHighlights || [])];
+    list.splice(index, 1);
+    setForm({ ...form, heroHighlights: list });
+  };
+
+  const handleResetHighlights = () => {
+    setForm({
+      ...form,
+      heroHighlights: ['Hak Milik Seumur Hidup', 'Garansi Hardware 1 Tahun', 'Gratis Setup & Training'],
+    });
+  };
+
+  const handleSaveHeroOnly = async () => {
+    setSavingHero(true);
+    setFeedback(null);
+    const res = await updateSiteSettings(form);
+    if (res.success) {
+      setFeedback({
+        msg: 'Teks hero dan poin keunggulan berhasil disimpan dan langsung aktif di landing page!',
+        type: 'success',
+      });
+    } else {
+      setFeedback({ msg: res.error || 'Gagal menyimpan pengaturan hero', type: 'error' });
+    }
+    setSavingHero(false);
+  };
+
+  // --- Mockup Handlers ---
   const handleSaveMockup = async (customUrl?: string) => {
     const targetUrl = customUrl !== undefined ? customUrl : (form.heroMockupImage || '/mockup-dashboard.png');
     setSavingMockup(true);
@@ -139,15 +193,15 @@ export const SettingsForm: React.FC<Props> = ({ initialSettings }) => {
         </div>
       )}
 
-      {/* Hero Section Texts */}
+      {/* Hero Section Texts & Highlights */}
       <Card>
         <CardHeader>
           <div className="flex items-center gap-2">
             <Sparkles className="w-5 h-5 text-[#E0511F]" />
-            <CardTitle>Teks Hero Section</CardTitle>
+            <CardTitle>Teks & Poin Keunggulan Hero Section</CardTitle>
           </div>
           <CardDescription>
-            Pesan pembuka, headline utama, dan sub-judul pada bagian paling atas website
+            Pesan pembuka, headline utama, sub-judul, dan poin centang keunggulan pada bagian paling atas website
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -184,7 +238,104 @@ export const SettingsForm: React.FC<Props> = ({ initialSettings }) => {
               required
             />
           </div>
+
+          {/* Poin Centang Keunggulan (Highlights) */}
+          <div className="space-y-3 pt-3 border-t border-[#E7E7EE] dark:border-[#232326]">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div>
+                <label className="text-xs font-bold text-[#000000] dark:text-[#FFFFFF] flex items-center gap-1.5">
+                  <Check className="w-3.5 h-3.5 text-[#E0511F] stroke-[2.5]" />
+                  <span>Poin Centang Keunggulan di Bawah Tombol CTA</span>
+                </label>
+                <p className="text-[11px] text-[#71717A] mt-0.5">
+                  Poin-poin benefit singkat dengan ikon centang di bawah tombol WhatsApp & Demo kasir.
+                </p>
+              </div>
+              <div className="flex items-center gap-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={handleResetHighlights}
+                  className="text-xs h-8"
+                  title="Kembalikan ke 3 poin bawaan"
+                >
+                  <RotateCcw className="w-3 h-3 mr-1" />
+                  <span>Reset Bawaan</span>
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={handleAddHighlight}
+                  className="text-xs h-8 text-[#E0511F] border-[#E0511F]/30 hover:bg-[#FFF0EB] dark:hover:bg-[#2B150B]"
+                >
+                  <Plus className="w-3 h-3 mr-1" />
+                  <span>Tambah Poin</span>
+                </Button>
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              {(form.heroHighlights || []).map((highlight, index) => (
+                <div key={index} className="flex items-center gap-2">
+                  <div className="w-7 h-7 rounded-lg bg-[#FFF0EB] dark:bg-[#2B150B] flex items-center justify-center shrink-0">
+                    <Check className="w-3.5 h-3.5 text-[#E0511F] stroke-[2.5]" />
+                  </div>
+                  <Input
+                    value={highlight}
+                    onChange={(e) => handleHighlightChange(index, e.target.value)}
+                    placeholder={`Contoh: Garansi Hardware 1 Tahun`}
+                    required
+                    className="flex-1 text-xs"
+                  />
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => handleRemoveHighlight(index)}
+                    title="Hapus poin"
+                    className="h-8 w-8 p-0 text-[#71717A] hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </Button>
+                </div>
+              ))}
+            </div>
+
+            {/* Live Visual Preview of Highlights */}
+            {form.heroHighlights && form.heroHighlights.length > 0 && (
+              <div className="mt-2 p-3 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-[#E7E7EE] dark:border-[#232326]">
+                <div className="text-[10px] font-semibold text-[#71717A] mb-1.5 uppercase tracking-wide">
+                  Pratinjau Tampilan di Landing Page:
+                </div>
+                <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-[#525252] dark:text-[#A1A1AA]">
+                  {form.heroHighlights.filter(Boolean).map((text, idx) => (
+                    <span key={idx} className="flex items-center gap-1.5 font-medium">
+                      <Check className="w-3.5 h-3.5 text-[#E0511F] stroke-[2.5]" />
+                      <span>{text}</span>
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
         </CardContent>
+
+        <CardFooter className="pt-3 border-t border-[#E7E7EE] dark:border-[#232326] flex items-center justify-between">
+          <span className="text-xs text-[#525252] dark:text-[#A1A1AA]">
+            {savingHero ? 'Sedang menyimpan teks hero...' : 'Simpan teks dan poin centang hero section di atas.'}
+          </span>
+          <Button
+            type="button"
+            onClick={handleSaveHeroOnly}
+            disabled={savingHero || loading}
+            className="font-bold gap-2 bg-[#E0511F] hover:bg-[#C94213] text-white shrink-0"
+          >
+            <Save className="w-4 h-4" />
+            <span>{savingHero ? 'Menyimpan...' : 'Simpan Teks & Poin Hero'}</span>
+          </Button>
+        </CardFooter>
       </Card>
 
       {/* Mockup Dashboard Image Settings */}
