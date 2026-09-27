@@ -246,7 +246,7 @@ export const SettingsForm: React.FC<Props> = ({ initialSettings }) => {
             <div className="flex items-center justify-between">
               <label className="text-xs font-bold text-[#000000] dark:text-[#FFFFFF] flex items-center gap-1.5">
                 <Layout className="w-3.5 h-3.5 text-[#E0511F]" />
-                <span>Pratinjau Jendela Mac:</span>
+                <span>Pratinjau Jendela :</span>
               </label>
               <span className="text-[11px] text-[#71717A]">
                 Tampilan persis seperti yang dilihat pengunjung di Hero landing page
