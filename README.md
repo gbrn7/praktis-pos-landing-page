@@ -115,21 +115,53 @@ docker run -d \
 
 ### Opsi C: Menjalankan dengan Podman
 
-Podman didukung penuh secara *rootless* dan aman.
+Podman didukung penuh secara *rootless* dan aman di lingkungan Linux dan WSL2.
 
-#### Menggunakan Podman Compose:
+#### 1. Mode Development (Live Reload & Hot-Reload):
+Menggunakan live source-code mount (`.:/app:z`) dan `userns_mode: keep-id` untuk permission yang lancar:
 ```bash
-# Build dan jalankan dengan podman-compose
-podman-compose up -d --build
+# Jalankan development interaktif via NPM script (Direkomendasikan):
+npm run podman:dev
 
-# Melihat status
-podman-compose ps
+# Atau di background (-d):
+npm run podman:dev:d
 
-# Menghentikan
-podman-compose down
+# Atau langsung via podman-compose CLI:
+podman-compose -f docker-compose.dev.yml up --build
+
+# Menghentikan container development:
+npm run podman:dev:down
 ```
 
-#### Menggunakan Podman CLI Standalone:
+#### 2. Mode Produksi (Optimized Multi-Stage Build):
+Membangun image teroptimasi mandiri dengan SQLite & uploads persisten:
+```bash
+# Jalankan produksi di background via NPM script (Direkomendasikan):
+npm run podman:prod:d
+
+# Atau langsung via podman-compose CLI:
+podman-compose -f docker-compose.yml up -d --build
+
+# Memantau log:
+npm run podman:logs
+
+# Menghentikan container produksi:
+npm run podman:prod:down
+```
+
+#### 3. Ringkasan NPM Helper Scripts:
+| Perintah | Deskripsi |
+|---|---|
+| `npm run podman:dev` | Jalankan container mode development interaktif |
+| `npm run podman:dev:d` | Jalankan container mode development di background |
+| `npm run podman:dev:down` | Hentikan container development |
+| `npm run podman:prod` | Jalankan container mode produksi interaktif |
+| `npm run podman:prod:d` | Jalankan container mode produksi di background |
+| `npm run podman:prod:down` | Hentikan container produksi |
+| `npm run podman:down` | Hentikan semua container podman (dev & prod) |
+| `npm run podman:logs` | Pantau log container secara real-time |
+
+#### 4. Menggunakan Podman CLI Standalone:
 ```bash
 # 1. Build image
 podman build -t praktis-pos-landing:latest .
@@ -147,7 +179,7 @@ podman run -d \
   -e AUTH_SECRET=kunci-rahasia-jwt-anda \
   praktis-pos-landing:latest
 ```
-*(Catatan: Flag `:Z` pada volume mount disarankan pada sistem Linux dengan SELinux aktif).*
+*(Catatan: Flag `:Z` pada volume mount otomatis diaplikasikan untuk isolasi SELinux yang aman).*
 
 ---
 
@@ -185,7 +217,9 @@ podman run -d \
 │   ├── types/                 # Definisi interface TypeScript
 │   └── data/                  # Data statis bawaan awal (seed fallback)
 ├── Dockerfile                 # Konfigurasi container multi-stage
-├── docker-compose.yml         # Konfigurasi orkestrasi container Docker / Podman
+├── docker-compose.yml         # Konfigurasi Podman Compose mode Produksi
+├── docker-compose.dev.yml     # Konfigurasi Podman Compose mode Development
+├── .env.example               # Template variabel lingkungan
 └── README.md
 ```
 
