@@ -1,9 +1,9 @@
 services:
   praktis-pos:
+    image: ${REGISTRY_URL}/${IMAGE_NAME}:${IMAGE_TAG}
     build:
       context: .
       dockerfile: Dockerfile
-    image: praktis-pos-landing:latest
     container_name: praktis-pos-landing
     restart: unless-stopped
     ports:
