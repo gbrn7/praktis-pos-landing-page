@@ -21,6 +21,20 @@ COPY package.json package-lock.json ./
 RUN npm ci
 
 # =============================================================================
+# Stage: Development Runner
+# =============================================================================
+FROM deps AS dev
+WORKDIR /app
+
+ENV NODE_ENV=development
+ENV PORT=3000
+ENV HOSTNAME="0.0.0.0"
+
+EXPOSE 3000
+
+CMD ["npm", "run", "dev"]
+
+# =============================================================================
 # Stage 3: Build the Next.js Application
 # =============================================================================
 FROM base AS builder
