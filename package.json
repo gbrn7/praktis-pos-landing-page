@@ -7,7 +7,15 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "podman:dev": "podman-compose -f docker-compose.dev.yml up --build",
+    "podman:dev:d": "podman-compose -f docker-compose.dev.yml up -d --build",
+    "podman:dev:down": "podman-compose -f docker-compose.dev.yml down",
+    "podman:prod": "podman-compose -f docker-compose.yml up --build",
+    "podman:prod:d": "podman-compose -f docker-compose.yml up -d --build",
+    "podman:prod:down": "podman-compose -f docker-compose.yml down",
+    "podman:down": "podman-compose -f docker-compose.yml down && podman-compose -f docker-compose.dev.yml down",
+    "podman:logs": "podman-compose logs -f"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.23",
